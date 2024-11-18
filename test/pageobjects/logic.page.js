@@ -20,6 +20,10 @@ class LogicPage extends Page {
         return $('[ng-click="$select.toggle($event)"]');
     }
 
+    get btnAddProd() {
+        return $('[ng-click="ctrl.tab.addEmptyProduct()"]')
+    }
+
     get btnDropCodex() {
         return $('a#browser_toggle')
     }
@@ -70,23 +74,40 @@ class LogicPage extends Page {
 
 
     items=["Alien Protein", "Bacon Agaric", "Petroleum Coke", "Plastic", "Somersloop", "Uranium",
-        "Bauxite", "Assembly Director System", "Alien Power Matrix", "Compacted Coal", "Computer"
-    ]
+        "Bauxite", "Assembly Director System", "Alien Power Matrix", "Compacted Coal", "Computer",
+        "Superposition Oscillator", "Turbofuel", "Wire", "Wood", "Uranium"]
+
+    async codexDropdown(){
+
+    }
+
 
     async capchaDetector() {
         await this.btnCalc.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
+        await this.btnAddTab.click();
+        await this.btnAddTab.click();
+        await this.btnAddTab.click();
+        await this.btnRmvTab.click();
+        await this.btnAddProd.click();
+        await this.btnAddProd.click();
+        await this.btnAddProd.click();
+        await this.btnAddProd.click();
+        await this.btnAddProd.click();
         await this.btnRecipes.click();
+        await this.btnAltAll.click();
+        await this.btnAltNone.click();
         await this.btnAltAll.click();
         await this.btnAltNone.click();
         await this.btnBaseAll.click();
         await this.btnBaseNone.click();
-        await this.btnAddTab.click();
-        await this.btnRmvTab.click();
+        await this.btnBaseAll.click();
+        await this.btnBaseNone.click();
         await this.btnDropCodex.click();
         await this.btnItems.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/codex/items");
         await this.btnAdv.click();
+        await this.chkRad.click();
         await this.chkRad.click();
     
     }

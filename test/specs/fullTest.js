@@ -5,7 +5,7 @@ describe('My capstone test application', () => {
         it('should test 4 components', async () => {
             
             await LogicPage.open()
-            await LogicPage.component1()
+            await LogicPage.codexDropdown()
             
         });
 });
