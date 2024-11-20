@@ -1,12 +1,12 @@
 
-import LogicPage from '../pageobjects/logic.page.js'
+import Functions from '../pageobjects/function.setup.js'
 
 describe('My capcha test application', () => {
         it('should test for capcha traps', async () => {
             
-            await LogicPage.open()
-            await LogicPage.capchaDetector()
-            await LogicPage.searchLoop()
+            await Functions.open()
+            await Functions.capchaDetector()
+            await Functions.searchLoop()
             
         });
 });

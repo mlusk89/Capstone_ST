@@ -1,8 +1,8 @@
 import { $ } from '@wdio/globals';
-import Page from './baseURL.js';
+import Home from './baseURL.js';
 import { expect } from '@wdio/globals'
 
-class LogicPage extends Page {
+class Functions extends Home {
    
     get btnCalc() {
         return $('[href="/1.0/production"]');
@@ -18,6 +18,10 @@ class LogicPage extends Page {
 
     get btnProdItemDrop() {
         return $('[ng-click="$select.toggle($event)"]');
+    }
+
+    get prodItems() {
+        return $('#ui-select-choices-row-3-0');
     }
 
     get btnAddProd() {
@@ -130,4 +134,4 @@ class LogicPage extends Page {
     }
 }
 
-export default new LogicPage();
+export default new Functions();
