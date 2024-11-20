@@ -82,7 +82,7 @@ class Functions extends Home {
         "Superposition Oscillator", "Turbofuel", "Wire", "Wood", "Uranium"]
 
     async codexDropdown(){
-
+        await this.btnDropCodex.click();
     }
 
 
