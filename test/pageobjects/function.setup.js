@@ -44,8 +44,24 @@ class Functions extends Home {
         return $('[href="/1.0/codex/items"]')
     }
 
+    get btnItemsHi() {
+        return $('.dropdown-item.active[ui-sref="items"]')
+    }
+
     get btnBuildings(){
         return $('[ui-sref="buildings"]')
+    }
+
+    get btnBuildingsHi(){
+        return $('.dropdown-item.active[ui-sref="buildings"]')
+    }
+
+    get btnSchema(){
+        return $('[ui-sref="schematics"]')
+    }
+
+    get btnSchemaHi(){
+        return $('.dropdown-item.active[ui-sref="schematics"]')
     }
 
     get inputSearch() {
@@ -95,6 +111,13 @@ class Functions extends Home {
 
     async codexDropdown(){
         await this.btnDropCodex.click();
+        await this.btnDropCodex.doubleClick();
+        await this.btnDropCodex.click({x: -80,y: 80});
+        await this.btnDropCodex.click();
+        await this.btnItems.click();
+        await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/codex/items");
+        await this.btnDropCodex.click();
+        await expect(this.btnItemsHi).toExist()
     }
 
 
