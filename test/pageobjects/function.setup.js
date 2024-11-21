@@ -21,7 +21,15 @@ class Functions extends Home {
     }
 
     get prodItems() {
-        return $('#ui-select-choices-row-3-0');
+        return $('#ui-select-choices-row-3-1');
+    }
+
+    get prodItemsTemp(){
+        return $('.ui-select-choices-row-inner')
+    }
+
+    get inputProdamt() {
+        return $('[ng-model="product.amount"]')
     }
 
     get btnAddProd() {
@@ -34,6 +42,10 @@ class Functions extends Home {
 
     get btnItems() {
         return $('[href="/1.0/codex/items"]')
+    }
+
+    get btnBuildings(){
+        return $('[ui-sref="buildings"]')
     }
 
     get inputSearch() {
@@ -93,6 +105,12 @@ class Functions extends Home {
         await this.btnAddTab.click();
         await this.btnAddTab.click();
         await this.btnRmvTab.click();
+        await this.btnProdItemDrop.click();
+        await this.prodItemsTemp.click();
+        await this.inputProdamt.click({x: 81, y: -9});
+        await browser.pause(2000)
+        await this.inputProdamt.click({x: 81, y: 9})
+        await browser.pause(2000)
         await this.btnAddProd.click();
         await this.btnAddProd.click();
         await this.btnAddProd.click();
