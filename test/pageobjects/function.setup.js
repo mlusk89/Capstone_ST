@@ -76,6 +76,18 @@ class Setup extends Home {
         return $('[ng-model="ctrl.filtersService.filter.onlyRadioactive"]')
     }
 
+    get chkEnergy(){
+        return $('[ng-model="ctrl.filtersService.filter.onlyWithEnergyValue"]')
+    }
+
+    get dropStack(){
+        return $('select[ng-model="ctrl.filtersService.filter.stackSize"]');
+    }
+
+    get dropPhys(){
+        return $('select[ng-model="ctrl.filtersService.filter.physicalState"] option')
+    }
+
     get btnItem1() {
         return $('[href="/1.0/codex/items/ai-limiter"]')
     }
