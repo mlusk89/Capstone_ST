@@ -2,7 +2,7 @@ import { $ } from '@wdio/globals';
 import Home from './baseURL.js';
 import { expect } from '@wdio/globals'
 
-class Functions extends Home {
+class Setup extends Home {
    
     get btnCalc() {
         return $('[href="/1.0/production"]');
@@ -109,16 +109,7 @@ class Functions extends Home {
         "Bauxite", "Assembly Director System", "Alien Power Matrix", "Compacted Coal", "Computer",
         "Superposition Oscillator", "Turbofuel", "Wire", "Wood", "Uranium"]
 
-    async codexDropdown(){
-        await this.btnDropCodex.click();
-        await this.btnDropCodex.doubleClick();
-        await this.btnDropCodex.click({x: -80,y: 80});
-        await this.btnDropCodex.click();
-        await this.btnItems.click();
-        await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/codex/items");
-        await this.btnDropCodex.click();
-        await expect(this.btnItemsHi).toExist()
-    }
+   
 
 
     async capchaDetector() {
@@ -175,4 +166,4 @@ class Functions extends Home {
     }
 }
 
-export default new Functions();
+export default new Setup();

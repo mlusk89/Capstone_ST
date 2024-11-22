@@ -1,11 +1,13 @@
-
-import Functions from '../pageobjects/function.setup.js'
+import Production from '../pageobjects/productionTab.js'
+import AdvFilters from '../pageobjects/advancedFilters.js'
+import Codex from '../pageobjects/codex.js'
+import Setup from '../pageobjects/function.setup.js'
 
 describe('My capstone test application', () => {
-        it('should test 4 components', async () => {
+        it('should test all components', async () => {
             
-            await Functions.open()
-            await Functions.codexDropdown()
+            await Setup.open()
+            await Codex.codexDropdown()
             
         });
 });
