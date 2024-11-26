@@ -1,5 +1,5 @@
 {
-  "name": "exampleTest",
+  "name": "ExampleTests",
   "type": "module",
   "devDependencies": {
     "@wdio/cli": "^9.2.11",

@@ -8,8 +8,13 @@ class AdvFilters extends Home {
     async filtersTest() {
         await Setup.btnDropCodex.click();
         await Setup.btnItems.click();
-        await Setup.btnAdv.click();
-        await Setup.btnAdv.doubleClick();
+        await this.openClose(Setup.btnAdv);
+        await Setup.chkRad.click();
+        await Setup.chkEnergy.click();
+        await Setup.chkRad.click();
+        await Setup.chkEnergy.click();
+        await this.openClose(Setup.dropStack);
+        await this.openClose(Setup.dropPhys);
         await this.stackLoop();
         await this.physLoop();
         
@@ -28,6 +33,11 @@ class AdvFilters extends Home {
         for (let i = 0; i < physOptions.length; i++){
             await physDropdown.selectByIndex(i);
         }
+    }
+    async openClose(element, offset = { x: 80 }) {
+        await element.click();
+        await element.doubleClick();
+        await element.click(offset);
     }
 }
 
