@@ -6,6 +6,7 @@ import Setup from './function.setup.js'
 class Codex extends Home {
 
     async codexDropdown(){
+        await Setup.btnDropCodex.waitForDisplayed({ timeout: 5000 })
         await Setup.openClose(Setup.btnDropCodex)
         await Setup.btnDropCodex.click();
         await Setup.btnItems.click();
