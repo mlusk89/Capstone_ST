@@ -6,9 +6,7 @@ import Setup from './function.setup.js'
 class Codex extends Home {
 
     async codexDropdown(){
-        await Setup.btnDropCodex.click();
-        await Setup.btnDropCodex.doubleClick();
-        await Setup.btnDropCodex.click({x: -80,y: 80});
+        await Setup.openClose(Setup.btnDropCodex)
         await Setup.btnDropCodex.click();
         await Setup.btnItems.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/codex/items");

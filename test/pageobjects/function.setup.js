@@ -85,7 +85,7 @@ class Setup extends Home {
     }
 
     get dropPhys(){
-        return $('select[ng-model="ctrl.filtersService.filter.physicalState"] option')
+        return $('select[ng-model="ctrl.filtersService.filter.physicalState"]')
     }
 
     get btnItem1() {
@@ -170,7 +170,13 @@ class Setup extends Home {
             await this.btnSearchX.click()
         }
     }
-
+    
+    async openClose(element, offset = { y: 15 }) {
+        await element.click();
+        await element.click();
+        await element.click();
+        await element.click(offset);
+    }
    
   
     open () {
