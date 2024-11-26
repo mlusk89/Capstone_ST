@@ -9,7 +9,9 @@ class AdvFilters extends Home {
         await Setup.btnDropCodex.click();
         await Setup.btnItems.click();
         await Setup.btnAdv.click();
+        await Setup.btnAdv.doubleClick();
         await this.stackLoop();
+        await this.physLoop();
         
     }
 
@@ -20,7 +22,13 @@ class AdvFilters extends Home {
             await stackDropdown.selectByIndex(i); 
         }
     } 
-
+    async physLoop() {
+        const physDropdown = await Setup.dropPhys
+        const physOptions = await physDropdown.$$('option');
+        for (let i = 0; i < physOptions.length; i++){
+            await physDropdown.selectByIndex(i);
+        }
+    }
 }
 
 export default new AdvFilters();
