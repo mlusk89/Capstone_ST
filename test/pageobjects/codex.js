@@ -7,7 +7,7 @@ class Codex extends Home {
 
     async codexDropdown(){
         await Setup.btnDropCodex.waitForDisplayed({ timeout: 5000 })
-        await Setup.openClose(Setup.btnDropCodex)
+        await Setup.openClose(Setup.btnDropCodex, Setup.btnItems)
         await Setup.btnDropCodex.click();
         await Setup.btnItems.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/codex/items");

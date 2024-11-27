@@ -11,7 +11,7 @@ class AdvFilters extends Home {
         await expect(Setup.btnItems).toBeDisplayed();
         await Setup.btnItems.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/codex/items");
-        await Setup.openClose(Setup.btnAdv);
+        await Setup.openClose(Setup.btnAdv, Setup.chkRad);
         await Setup.btnAdv.click();
         await expect(Setup.chkRad).toBeDisplayed();
         await Setup.chkRad.click();
@@ -22,8 +22,8 @@ class AdvFilters extends Home {
         await expect(Setup.chkRad).not.toBeChecked()
         await Setup.chkEnergy.click();
         await expect(Setup.chkEnergy).not.toBeChecked()
-        await Setup.openClose(Setup.dropStack);
-        await Setup.openClose(Setup.dropPhys);
+        await Setup.openClose(Setup.dropStack, Setup.stackFocus);
+        await Setup.openClose(Setup.dropPhys, Setup.physSubEle);
         await this.stackLoop();
         await this.physLoop();
         

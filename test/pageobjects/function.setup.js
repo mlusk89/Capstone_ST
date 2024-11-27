@@ -80,12 +80,20 @@ class Setup extends Home {
         return $('[ng-model="ctrl.filtersService.filter.onlyWithEnergyValue"]')
     }
 
-    get dropStack(){
+    get dropStack() {
         return $('select[ng-model="ctrl.filtersService.filter.stackSize"]');
     }
 
-    get dropPhys(){
+    get dropPhys() {
         return $('select[ng-model="ctrl.filtersService.filter.physicalState"]')
+    }
+
+    get stackFocus() {
+        return $('select.form-control.ng-pristine.ng-valid.ng-empty.ng-touched')
+    }
+
+    get physSubEle() {
+        return $('[value="solid"]')
     }
 
     get btnItem1() {
@@ -171,11 +179,19 @@ class Setup extends Home {
         }
     }
     
-    async openClose(element, offset = { y: 15 }) {
+    async openClose(element, subElement, isOpen = false, offset = { y: 15 }) {
         await element.click();
         await element.click();
         await element.click();
         await element.click(offset);
+
+        if (isOpen) {
+            await expect(subElement).toBeClickable();
+        }
+        else {
+            await expect(subElement).not.toBeClickable();
+        
+        }
     }
    
   
