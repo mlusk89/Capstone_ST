@@ -72,6 +72,10 @@ class Setup extends Home {
         return $('.btn.btn-secondary.ng-binding')
     }
 
+    get recipeList(){
+        return $('.recipe-list')
+    }
+
     get chkRad() {
         return $('[ng-model="ctrl.filtersService.filter.onlyRadioactive"]')
     }
@@ -88,8 +92,16 @@ class Setup extends Home {
         return $('select[ng-model="ctrl.filtersService.filter.physicalState"]')
     }
 
-    get stackFocus() {
-        return $('select.form-control.ng-pristine.ng-valid.ng-empty.ng-touched')
+    get physSolid() {
+        return $('[value="solid"]')
+    }
+
+    get physLiquid() {
+        return $('[value="liquid"]')
+    }
+
+    get physAny() {
+        return $('[ng-repeat="option in ctrl.physicalStates"]:first-of-type')
     }
 
     get physSubEle() {
@@ -125,9 +137,37 @@ class Setup extends Home {
     }
 
 
-    items=["Alien Protein", "Bacon Agaric", "Petroleum Coke", "Plastic", "Somersloop", "Uranium",
-        "Bauxite", "Assembly Director System", "Alien Power Matrix", "Compacted Coal", "Computer",
-        "Superposition Oscillator", "Turbofuel", "Wire", "Wood", "Uranium"]
+    items=["Adaptive Control Unit", "AI Expansion Server", "AI Limiter", "Alclad Aluminum Sheet",
+         "Alien DNA Capsule", "Alien Power Matrix", "Alien Protein", "Alumina Solution", 
+         "Aluminum Casing", "Aluminum Ingot", "Aluminum Scrap", "Assembly Director System", 
+         "Automated Wiring", "Ballistic Warp Drive", "Battery", "Bauxite", "Biochemical Sculptor", 
+         "Biomass", "Black Powder", "Cable", "Caterium Ingot", "Caterium Ore", "Circuit Board", 
+         "Cluster Nobelisk", "Coal", "Compacted Coal", "Computer", "Concrete", "Cooling System", 
+         "Copper Ingot", "Copper Ore", "Copper Powder", "Copper Sheet", "Crude Oil", 
+         "Crystal Oscillator", "Dark Matter Crystal", "Dark Matter Residue", "Diamonds", 
+         "Dissolved Silica", "Electromagnetic Control Rod", "Empty Canister", "Empty Fluid Tank",
+         "Encased Industrial Beam", "Encased Plutonium Cell", "Encased Uranium Cell", 
+         "Excited Photonic Matter", "Explosive Rebar", "Fabric", "Ficsite Ingot", "Ficsite Trigon", 
+         "Ficsonium", "Ficsonium Fuel Rod", "Fuel", "Fused Modular Frame", "Gas Filter", 
+         "Gas Nobelisk", "Heat Sink", "Heavy Modular Frame", "Heavy Oil Residue", 
+         "High-Speed Connector", "Homing Rifle Ammo", "Iodine-Infused Filter", "Ionized Fuel", 
+         "Iron Ingot", "Iron Ore", "Iron Plate", "Iron Rebar", "Iron Rod", "Limestone", 
+         "Liquid Biofuel", "Magnetic Field Generator", "Modular Engine", "Modular Frame", "Motor", 
+         "Neural-Quantum Processor", "Nitric Acid", "Nitrogen Gas", "Nobelisk", "Non-Fissile Uranium",
+         "Nuclear Pasta", "Nuke Nobelisk", "Packaged Alumina Solution", "Packaged Fuel",
+         "Packaged Heavy Oil Residue", "Packaged Ionized Fuel", "Packaged Liquid Biofuel",
+         "Packaged Nitric Acid", "Packaged Nitrogen Gas", "Packaged Oil", "Packaged Rocket Fuel", 
+         "Packaged Sulfuric Acid", "Packaged Turbofuel", "Packaged Water", "Petroleum Coke", "Plastic", 
+         "Plutonium Fuel Rod", "Plutonium Pellet", "Polymer Resin", "Portable Miner", "Power Shard", 
+         "Pressure Conversion Cube", "Pulse Nobelisk", "Quartz Crystal", "Quickwire", 
+         "Radio Control Unit", "Raw Quartz", "Reanimated SAM", "Reinforced Iron Plate", "Rifle Ammo", 
+         "Rocket Fuel", "Rotor", "Rubber", "SAM Fluctuator", "Screw", "Shatter Rebar", "Silica", 
+         "Singularity Cell", "Smart Plating", "Smokeless Powder", "Solid Biofuel", "Stator", 
+         "Steel Beam", "Steel Ingot", "Steel Pipe", "Stun Rebar", "Sulfur", "Sulfuric Acid", 
+         "Supercomputer", "Superposition Oscillator", "Thermal Propulsion Rocket", "Time Crystal", 
+         "Turbo Motor", "Turbo Rifle Ammo", "Turbofuel", "Uranium", "Uranium Fuel Rod", 
+         "Versatile Framework", "Water", "Wire"
+       ]
 
    
 
