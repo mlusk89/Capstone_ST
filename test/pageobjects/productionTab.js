@@ -4,29 +4,47 @@ import { expect } from '@wdio/globals'
 import Setup from '../pageobjects/function.setup.js'
 
 class Production extends Home {
-    async ProdTest() {
+    async ProductionTest_ItemDropdown() {
         await Setup.btnCalc.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
         await Setup.btnProdItemDrop.click();
         await Setup.prodItem1.click();
         await Setup.btnProdItemDrop.click();
-        await Setup.minMaxDrop.click(); //something to click outside of the dropdown
+        await Setup.minMaxDrop.click(); //something to click outside of the dropdown 
         await this.itemLoop();
+    }
+
+    async ProductionTest_IpmDropdown() {
         await Setup.openClose(Setup.minMaxDrop, Setup.maxDrop);
         await Setup.minMaxDrop.click();
         await Setup.maxDrop.click();
         await expect(Setup.inputProdamt).not.toExist
-        await Setup.btnAddTab.click();
+    }   
+     
+    async ProductionTest_CRUD() {
+        await Setup.btnCalc.click();
+        await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
+
+        //await Setup.btnAddTab.click();
         
-        await Setup.btnRmvTab.click();
+       // await Setup.btnRmvTab.click();
+    }
 
-        await Setup.inputProdamt.getSize('width');
-        let prodInputWidth = await Setup.inputProdamt.getSize('width');
-        await Setup.inputProdamt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: -9 }); //box width - padding(12 on each side)/2 (because it starts from the center) - 15 to get to buttons
-        await expect(inputProdamt).toHaveValue(11) //default entry is 10 + up click = 11
-        await Setup.inputProdamt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: 9 });
-        await expect(inputProdamt).toHaveValue(10)
+    async ProductionTest_ItpField() {
+        await Setup.btnCalc.click();
+        await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
+        await Setup.inputProdAmt.getSize('width');
+        let prodInputWidth = await Setup.inputProdAmt.getSize('width');
+        await Setup.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: -9 }); //box width - padding(12 on each side)/2 (because it starts from the center) - 15 to get to buttons
+        await expect(Setup.inputProdAmt).toHaveValue("11") //default entry is 10 + up click = 11
+        await Setup.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: 9 });
+        await expect(Setup.inputProdAmt).toHaveValue("10")
 
+    }
+
+    async ProductionTest_Integration(){
+        await Setup.btnCalc.click();
+        await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
     }
 
     async itemsLoop() {
@@ -48,6 +66,7 @@ class Production extends Home {
 
     async itemLoop() {
         for (let i = 0; i < Setup.prodItems1.length; i++) {
+            
             await Setup.btnProdItemDrop.click();
             await this.prodItems(Setup.prodItems1[i])
             await Setup.itemDropdown.clearValue();

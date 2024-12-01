@@ -29,7 +29,7 @@ class Setup extends Home {
     }
 
     get prodItems() {
-        return $('.ui-select-choices-row.ng-scope');
+        return $('.ui-select-choices-group') //$('.ui-select-choices-row.ng-scope');
     }
 
     get prodItem1() {
@@ -48,7 +48,7 @@ class Setup extends Home {
         return $('[label="maximize"]');
     }
 
-    get inputProdamt() {
+    get inputProdAmt() {
         return $('[ng-model="product.amount"]');
     }
 
