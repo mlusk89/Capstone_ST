@@ -27,7 +27,8 @@ class AdvFilters extends Home {
         await this.stackLoop();
         await this.physLoop();
         await this.physLoop2();
-        await this.integration(Setup.chkRad, Setup.chkEnergy);
+        await this.stackLoop2();
+        await this.integration1(Setup.chkRad, Setup.chkEnergy);
         
         
         
@@ -62,28 +63,43 @@ class AdvFilters extends Home {
             await physDropdown.selectByIndex(i);
             let selectedOption = await physDropdown.getValue();
             if (selectedOption === '0') {
-                await expect(Setup.recipeList).toHaveChildren({ eq: 139 });
+                await expect(Setup.recipeList).toHaveChildren({ eq: 174 }); // any
             } else if (selectedOption === '1') {
-                await expect(Setup.recipeList).toHaveChildren({ eq: 124 });
+                await expect(Setup.recipeList).toHaveChildren({ eq: 159 }); // solid
             } else if (selectedOption === '2') {
-                await expect(Setup.recipeList).toHaveChildren({ eq: 15 });
+                await expect(Setup.recipeList).toHaveChildren({ eq: 15 }); // liquid
             }
            }
+           await Setup.dropPhys.click();
+           await Setup.physAny.click();
         }
 
-    async physStateDropdown() {
-        await Setup.dropPhys.click();
-        await Setup.physSolid.click();
-        await expect(Setup.recipeList).toHaveChildren({ eq: 124 })
-        await Setup.dropPhys.click();
-        await Setup.physLiquid.click();
-        await expect(Setup.recipeList).toHaveChildren({ eq: 15 })
-        await Setup.dropPhys.click();
-        await Setup.physAny.click();
-        await expect(Setup.recipeList).toHaveChildren({ eq: 139 })
-    }
+        async stackLoop2() {
+            const stackDropdown = await Setup.dropStack
+            const stackOptions = await stackDropdown.$$('option');
+            for (let i = 0; i < stackOptions.length; i++){
+                await stackDropdown.selectByIndex(i);
+                let selectedOption = await stackDropdown.getValue();
+                if (selectedOption === '0') {
+                    await expect(Setup.recipeList).toHaveChildren({ eq: 174 }); // any
+                } else if (selectedOption === '1') {
+                    await expect(Setup.recipeList).toHaveChildren({ eq: 16 }); // stack size 1
+                } else if (selectedOption === '2') {
+                    await expect(Setup.recipeList).toHaveChildren({ eq: 62 }); // stack size 50
+                } else if (selectedOption === '3') {
+                    await expect(Setup.recipeList).toHaveChildren({ eq: 56 }); // stack size 100
+                } else if (selectedOption === '4') {
+                    await expect(Setup.recipeList).toHaveChildren({ eq: 27 }); // stack size 200
+                } else if (selectedOption === '5') {
+                    await expect(Setup.recipeList).toHaveChildren({ eq: 13 }); // stack size 500
+                }
+            }
+            await Setup.dropStack.click();
+            await Setup.stackAny.click();
+        }
+    
 
-    async integration(check1, check2) {
+    async integration1(check1, check2) {
         await check1.click();
         await expect(check1).toBeChecked();
         await this.stackLoop();
