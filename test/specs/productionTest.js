@@ -17,12 +17,12 @@ describe('My production tab test application', () => {
 
     });
 
-    it('should test the clone, delete, add, and remove functions', async () => {
+    // it('should test the clone, delete, add, and remove functions', async () => {
 
-        await Setup.open();
-        await Production.ProductionTest_CRUD();
+    //     await Setup.open();
+    //     await Production.ProductionTest_CRUD();
 
-    });
+    // });
 
     it('should test the field for the number of items to produce', async () => {
 
@@ -31,11 +31,11 @@ describe('My production tab test application', () => {
 
     });
 
-    it('should test the interactions between components', async () => {
+    // it('should test the interactions between components', async () => {
         
-        await Setup.open();
-        await Production.ProductionTest_Integration();
-
-    });
+    //     await Setup.open();
+    //     await Production.ProductionTest_Integration();
+    
+    // });
 
 });

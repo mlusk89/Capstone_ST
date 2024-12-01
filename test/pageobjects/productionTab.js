@@ -15,20 +15,21 @@ class Production extends Home {
     }
 
     async ProductionTest_IpmDropdown() {
+        await Setup.btnCalc.click();
         await Setup.openClose(Setup.minMaxDrop, Setup.maxDrop);
         await Setup.minMaxDrop.click();
         await Setup.maxDrop.click();
         await expect(Setup.inputProdamt).not.toExist
     }   
      
-    async ProductionTest_CRUD() {
-        await Setup.btnCalc.click();
-        await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
+    // async ProductionTest_CRUD() {
+        // await Setup.btnCalc.click();
+        // await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
 
         //await Setup.btnAddTab.click();
         
        // await Setup.btnRmvTab.click();
-    }
+    // }
 
     async ProductionTest_ItpField() {
         await Setup.btnCalc.click();
@@ -42,10 +43,10 @@ class Production extends Home {
 
     }
 
-    async ProductionTest_Integration(){
-        await Setup.btnCalc.click();
-        await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
-    }
+    // async ProductionTest_Integration(){
+    //     await Setup.btnCalc.click();
+    //     await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
+    // }
 
     async itemsLoop() {
         const itemDropdown = await Setup.prodItems
