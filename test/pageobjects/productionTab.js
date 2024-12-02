@@ -28,10 +28,10 @@ class Production extends Home {
         await Setup.btnAddTab.click();
         await expect(Setup.unnamedFactoryTab).toExist();
         await this.addTabLoop();
-        await expect(this.addedTabs).toBeElementsArrayOfSize(141) //141 unnamed tabs should exist
+        const addedTabs = await $$($('.nav-item.ng-scope.ui-sortable-handle'))
+        await expect(this.addedTabs).toHaveLength(141) //141 unnamed tabs should exist
         await Setup.btnRmvTab.click();
-        const addedTabs = await $$(Setup.unnamedFactoryTab)
-        await expect(addedTabs).toBeElementsArrayOfSize(140)
+        await expect(addedTabs.length).toBe(140)
         await this.rmvTabLoop();
         await expect(Setup.unnamedFactoryTab).not.toExist();
         await Setup.btnAddProd.click();
@@ -86,7 +86,7 @@ class Production extends Home {
     }
 
     async addTabLoop() {
-        const addedTabs = await $$(Setup.unnamedFactoryTab)
+        
         for (let i = 0; i < 140; i++) {
             await Setup.btnAddTab.click();
         }

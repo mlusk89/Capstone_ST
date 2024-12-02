@@ -20,6 +20,10 @@ class Setup extends Home {
         return $('[data-original-title="Unnamed Factory"]')
     }
 
+    get numberOfTabs() {
+        return $('.nav-item.ng-scope.ui-sortable-handle')
+    }
+
     get clrProdLine() {
         return $('[ng-click="ctrl.tab.clearProducts()"]')
     }
