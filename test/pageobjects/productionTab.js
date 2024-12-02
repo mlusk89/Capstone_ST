@@ -22,14 +22,25 @@ class Production extends Home {
         await expect(Setup.inputProdamt).not.toExist
     }   
      
-    // async ProductionTest_CRUD() {
-        // await Setup.btnCalc.click();
-        // await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
-
-        //await Setup.btnAddTab.click();
-        
-       // await Setup.btnRmvTab.click();
-    // }
+    async ProductionTest_CRUD() {
+        await Setup.btnCalc.click();
+        await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
+        await Setup.btnAddTab.click();
+        await expect(Setup.unnamedFactoryTab).toExist();
+        await this.addTabLoop();
+        await expect(this.addedTabs).toBeElementsArrayOfSize(141) //141 unnamed tabs should exist
+        await Setup.btnRmvTab.click();
+        const addedTabs = await $$(Setup.unnamedFactoryTab)
+        await expect(addedTabs).toBeElementsArrayOfSize(140)
+        await this.rmvTabLoop();
+        await expect(Setup.unnamedFactoryTab).not.toExist();
+        await Setup.btnAddProd.click();
+        await expect(this.addedProducts).toBeElementsArrayOfSize(2)
+        await this.addProductLoop();
+        await expect(this.addedProducts).toBeElementsArrayOfSize(142)
+        await Setup.clrProdLine.click();
+        await expect(this.addedProducts).toBeElementsArrayOfSize(1)
+    }
 
     async ProductionTest_ItpField() {
         await Setup.btnCalc.click();
@@ -39,7 +50,7 @@ class Production extends Home {
         await Setup.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: -9 }); //box width - padding(12 on each side)/2 (because it starts from the center) - 15 to get to buttons
         await expect(Setup.inputProdAmt).toHaveValue("11") //default entry is 10 + up click = 11
         await Setup.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: 9 });
-        await expect(Setup.inputProdAmt).toHaveValue("10")
+        await expect(Setup.inputProdAmt).toHaveValue("10");
 
     }
 
@@ -72,6 +83,26 @@ class Production extends Home {
             await this.prodItems(Setup.prodItems1[i])
             await Setup.itemDropdown.clearValue();
         }
+    }
+
+    async addTabLoop() {
+        const addedTabs = await $$(Setup.unnamedFactoryTab)
+        for (let i = 0; i < 140; i++) {
+            await Setup.btnAddTab.click();
+        }
+    }
+
+    async rmvTabLoop() {
+        for (let i = 0; i < 140; i++) {
+            await Setup.btnRmvTab.click();
+        }
+    }
+
+    async addProductLoop() {
+        for (let i = 0; i < 140; i++) {
+            await Setup.btnAddProd.click();
+        }
+        const addedProducts = $$('[ng-click="ctrl.tab.addEmptyProduct()"]');
     }
 
 }

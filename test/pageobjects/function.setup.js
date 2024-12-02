@@ -16,6 +16,14 @@ class Setup extends Home {
         return $('[ng-click="ctrl.removeTab(ctrl.tab)"]');
     }
 
+    get unnamedFactoryTab() {
+        return $('[data-original-title="Unnamed Factory"]')
+    }
+
+    get clrProdLine() {
+        return $('[ng-click="ctrl.tab.clearProducts()"]')
+    }
+
     get btnProdItemDrop() {
         return $('[ng-model="product.item"]');
     }
