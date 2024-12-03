@@ -21,7 +21,7 @@ class Setup extends Home {
     }
 
     get numberOfTabs() {
-        return $('[ng-model="ctrl.tabs"]') //$('[data-original-title="Unnamed Factory"]') $('.nav-item.ng-scope.ui-sortable-handle')
+        return $('[ng-model="ctrl.tabs"]') 
     }
 
     get clrProdLine() {
