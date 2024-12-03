@@ -9,6 +9,7 @@ describe('My capstone test application', () => {
             await Setup.open();
             await AdvFilters.filtersTest();
             await Codex.codexDropdown();
+            await Production.ProductionTest_ItemDropdown();
             
         });
 });

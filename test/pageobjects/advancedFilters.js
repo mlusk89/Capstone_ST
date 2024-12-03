@@ -5,13 +5,15 @@ import Setup from '../pageobjects/function.setup.js'
 
 class AdvFilters extends Home {
     
-    async filtersTest() {
+    async filtersOpenTest() {
         await Setup.btnDropCodex.waitForDisplayed({ timeout: 5000 })
         await Setup.btnDropCodex.click();
         await expect(Setup.btnItems).toBeDisplayed();
         await Setup.btnItems.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/codex/items");
-        await Setup.openClose(Setup.btnAdv, Setup.chkRad);
+        await Setup.openClose(Setup.btnAdv, Setup.chkRad); //element to open and sub element to verify if open or closed
+    }
+    async checkTest() {    
         await Setup.btnAdv.click();
         await expect(Setup.chkRad).toBeDisplayed();
         await Setup.chkRad.click();
@@ -22,16 +24,22 @@ class AdvFilters extends Home {
         await expect(Setup.chkRad).not.toBeChecked();
         await Setup.chkEnergy.click();
         await expect(Setup.chkEnergy).not.toBeChecked();
-        await Setup.openClose(Setup.dropStack, Setup.stackFocus);
+    }
+    async stackAndPhysDropdownTest() {
+        await Setup.openClose(Setup.dropStack, Setup.stackFocus); //element to open and sub element to verify if open or closed
         await Setup.openClose(Setup.dropPhys, Setup.physSubEle);
         await this.stackLoop();
         await this.physLoop();
         await this.physLoop2();
         await this.stackLoop2();
-        await this.integration1(Setup.chkRad, Setup.chkEnergy);
-        await this.integration2(Setup.chkRad, Setup.chkEnergy);
     }
-    async integration2(check1, check2) {
+    async integrationTest() {
+        await this.integrationAny(Setup.chkRad, Setup.chkEnergy); //element to open and sub element to verify if open or closed
+        await this.integrationPhysState(Setup.chkRad, Setup.chkEnergy);
+    }
+
+
+    async integrationPhysState(check1, check2) {
         await check1.click();
         await expect(check1).toBeChecked();
         await this.stackLoopRad(); //stack size w/rad and any phys state
@@ -393,7 +401,7 @@ class AdvFilters extends Home {
         }
     
 
-    async integration1(check1, check2) {
+    async integrationAny(check1, check2) {
         await check1.click();
         await expect(check1).toBeChecked();
         await this.stackLoop();
