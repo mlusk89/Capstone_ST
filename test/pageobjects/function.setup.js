@@ -240,7 +240,7 @@ class Setup extends Home {
 
 
 
-    async capchaDetector() {
+    async captchaDetector() {
         await this.btnCalc.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
         await this.btnAddTab.click();
