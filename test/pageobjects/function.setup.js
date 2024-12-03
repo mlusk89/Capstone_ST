@@ -21,7 +21,7 @@ class Setup extends Home {
     }
 
     get numberOfTabs() {
-        return $('.nav-item.ng-scope.ui-sortable-handle')
+        return $('[data-original-title="Unnamed Factory"]') //$('.nav-item.ng-scope.ui-sortable-handle')
     }
 
     get clrProdLine() {
