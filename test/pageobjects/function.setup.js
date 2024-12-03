@@ -24,6 +24,10 @@ class Setup extends Home {
         return $('[ng-model="ctrl.tabs"]') 
     }
 
+    get addProductTable() {
+        return $('[ng-model="ctrl.tab.data.request.production"]')
+    }
+
     get clrProdLine() {
         return $('[ng-click="ctrl.tab.clearProducts()"]')
     }
@@ -41,11 +45,15 @@ class Setup extends Home {
     }
 
     get prodItems() {
-        return $('.ui-select-choices-group') //$('.ui-select-choices-row.ng-scope');
+        return $('[ng-bind="item.name"]') //$('.ui-select-choices-group') //$('.ui-select-choices-row.ng-scope');
     }
 
     get prodItem1() {
         return $('.ui-select-choices-row-inner');
+    }
+
+    get prodResult() {
+        return $("span.ng-binding[ng-bind='item.name']")
     }
 
     get minMaxDrop() {
@@ -62,6 +70,14 @@ class Setup extends Home {
 
     get inputProdAmt() {
         return $('[ng-model="product.amount"]');
+    }
+
+    get inputError() {
+        return $('//div[@class="visualization-result" and contains(text(), \"Unfortunately\")]')
+    }
+
+    get visResult() {
+        return $('.visualization-result')
     }
 
     get btnAddProd() {
@@ -208,7 +224,7 @@ class Setup extends Home {
         "Yellow Power Slug", "Zipline"
     ]
 
-    prodItems1 = ["Adaptive Control Unit", "AI Expansion Server", "AI Limiter", "Alclad Aluminum Sheet", 
+    productionItems = ["Adaptive Control Unit", "AI Expansion Server", "AI Limiter", "Alclad Aluminum Sheet", 
         "Alien DNA Capsule", "Alien Power Matrix", "Alien Protein", "Alumina Solution", "Aluminum Casing", 
         "Aluminum Ingot", "Aluminum Scrap", "Assembly Director System", "Automated Wiring", 
         "Ballistic Warp Drive", "Battery", "Bauxite", "Biochemical Sculptor", "Biomass", "Black Powder", 
