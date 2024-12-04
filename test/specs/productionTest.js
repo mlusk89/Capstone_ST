@@ -12,7 +12,6 @@ describe('My production tab test application', () => {
 
     // it('should open the items/min dropdown and test both entries within', async () => {
 
-    //     await Setup.open();
     //     await Production.ProductionTest_IpmDropdown();
 
     // });
@@ -24,18 +23,18 @@ describe('My production tab test application', () => {
 
     // });
 
-    it('should test the field for the number of items to produce', async () => {
+    // it('should test the field for the number of items to produce', async () => {
 
-        await Setup.open();
-        await Production.ProductionTest_ItpField();
-
-    });
-
-    // it('should test the interactions between components', async () => {
-        
     //     await Setup.open();
-    //     await Production.ProductionTest_Integration();
+    //     await Production.ProductionTest_ItpField();
 
     // });
+
+    it('should test the interactions between components', async () => {
+        
+        await Setup.open();
+        await Production.ProductionTest_Integration();
+
+    });
 
 });

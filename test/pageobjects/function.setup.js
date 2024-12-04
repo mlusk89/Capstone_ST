@@ -32,6 +32,18 @@ class Setup extends Home {
         return $('[ng-click="ctrl.tab.clearProducts()"]')
     }
 
+    get machinesTab() {
+        return $(`[ng-class="{active: ctrl.tab.tab === 'machines'}"]`);
+    }
+
+    get chkConverter() {
+        return $('//span[contains(text(), \"Converter\")]')
+    }
+
+    get productionTab() {
+        return $(`[ng-class="{active: ctrl.tab.tab === 'production'}"]`);
+    }
+
     get btnProdItemDrop() {
         return $('[ng-model="product.item"]');
     }

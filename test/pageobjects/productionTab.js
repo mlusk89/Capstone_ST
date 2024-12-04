@@ -11,8 +11,14 @@ class Production extends Home {
         await Setup.prodItem1.click();
         await Setup.btnProdItemDrop.click();
         await Setup.minMaxDrop.click(); //something to click outside of the dropdown 
+        await Setup.machinesTab.click(); // Turn off Converter option
+        await expect(chkConverter).toBeDisplayed();
+        await Setup.chkConverter.click();
+        await expect(chkConverter).not.toBeChecked();
+        await Setup.productionTab.click(); //back to test area
+        await expect(btnProdItemDrop).toBeDisplayed();
+        await Setup.btnProdItemDrop.click();
         await this.itemLoop();
-        //needs expects ^
     }
 
     async ProductionTest_IpmDropdown() {
@@ -61,25 +67,20 @@ class Production extends Home {
 
     }
 
-    // async ProductionTest_Integration(){
-    //     await Setup.btnCalc.click();
-    //     await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
-    // }
-
-    // ^ for this - abstract out functions for integration to pass through iterator
-
-    async itemsLoop() {
-        const itemDropdown = await Setup.prodItems
-        const itemOptions = await itemDropdown.$$('option');
-        for (let i = 0; i < itemOptions.length; i++){
-            await btnProdItemDrop.click();
-            await expect(itemDropdown).toExist();
-            await itemDropdown.selectByIndex(i);
-            let selectedOption = await itemDropdown.getValue();
-            let expectedOption = await itemOptions[i].getAttribute('value');
-            await expect(selectedOption).toBe(expectedOption);
-        }
+    async ProductionTest_Integration(){
+        await Setup.btnCalc.click();
+        await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
+        await Setup.machinesTab.click();
+        await expect(Setup.chkConverter).toBeDisplayed();
+        await Setup.chkConverter.click();
+        await expect(Setup.chkConverter).not.toBeChecked();
+        await Setup.productionTab.click();
+        await expect(Setup.btnProdItemDrop).toBeDisplayed();
+        await Setup.btnProdItemDrop.click();
+        await this.integrationLoop();
     }
+
+
 
     async prodItems(items) {
         await Setup.itemDropdown.setValue(items);
@@ -87,13 +88,49 @@ class Production extends Home {
 
     async itemLoop() {
         for (let i = 0; i < Setup.productionItems.length; i++) {
-            
-            await Setup.btnProdItemDrop.click();
             await this.prodItems(Setup.productionItems[i]);
             const text = await Setup.prodResult.getText();
             console.log(text);
             await expect(Setup.productionItems[i]) === text;
             console.log(Setup.productionItems[i]);
+            await Setup.itemDropdown.clearValue();
+        }
+    }
+
+    async integrationLoop() {
+        for (let i = 0; i < Setup.productionItems.length; i++) {
+            await this.prodItems(Setup.productionItems[i]);
+            await Setup.prodItem1.click();
+            await Setup.inputProdAmt.waitForDisplayed();
+            await expect(Setup.minMaxDrop).toExist();
+            await expect(Setup.inputProdAmt).toExist();
+            await Setup.inputProdAmt.getSize('width');
+            let prodInputWidth = await Setup.inputProdAmt.getSize('width');
+            await Setup.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: -9 }); //box width - padding(12 on each side)/2 (because it starts from the center) - 15 to get to buttons
+            await expect(Setup.inputProdAmt).toHaveValue("11") //default entry is 10 + up click = 11
+            await Setup.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: 9 });
+            await expect(Setup.inputProdAmt).toHaveValue("10");
+            await Setup.inputProdAmt.setValue(30);
+            await expect(Setup.inputError).not.toBeDisplayed();
+            if (await Setup.inputError.isDisplayed()) {
+                await Setup.machinesTab.click();
+                await expect(Setup.chkConverter).toBeDisplayed();
+                await Setup.chkConverter.click();
+                await expect(Setup.chkConverter).toBeChecked();
+                await Setup.productionTab.click();
+                await expect(Setup.btnProdItemDrop).toBeDisplayed();
+                await Setup.btnProdItemDrop.click();
+                }
+            await Setup.inputProdAmt.setValue(600000);
+            await expect(Setup.inputError).toExist();
+            await Setup.inputProdAmt.setValue(10);
+            await Setup.minMaxDrop.click();
+            await Setup.maxDrop.click();
+            await expect(Setup.inputProdAmt).not.toBeDisplayed();
+            await Setup.minMaxDrop.click();
+            await Setup.minDrop.click();
+            await expect(Setup.inputProdAmt).toExist();
+            await Setup.btnProdItemDrop.click();
             await Setup.itemDropdown.clearValue();
         }
     }
