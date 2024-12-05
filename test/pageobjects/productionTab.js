@@ -1,4 +1,4 @@
-import { $ } from '@wdio/globals';
+
 import Home from './baseURL.js';
 import { expect } from '@wdio/globals'
 import Setup from '../pageobjects/function.setup.js'
@@ -149,7 +149,6 @@ class Production extends Home {
         for (let i = 0; i < 140; i++) {
             await Setup.btnAddProd.click();
         }
-        const addedProducts = $$('[ng-click="ctrl.tab.addEmptyProduct()"]');
     }
 
 }

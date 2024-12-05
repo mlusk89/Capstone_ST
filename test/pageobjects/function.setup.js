@@ -57,7 +57,7 @@ class Setup extends Home {
     }
 
     get prodItems() {
-        return $('[ng-bind="item.name"]') //$('.ui-select-choices-group') //$('.ui-select-choices-row.ng-scope');
+        return $('[ng-bind="item.name"]') 
     }
 
     get prodItem1() {

@@ -1,4 +1,4 @@
-import { $ } from '@wdio/globals';
+
 import Home from './baseURL.js';
 import { expect } from '@wdio/globals'
 import Setup from './function.setup.js'
