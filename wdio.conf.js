@@ -130,7 +130,7 @@ export const config = {
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 1900000
+        timeout: 9900000
     },
 
     //

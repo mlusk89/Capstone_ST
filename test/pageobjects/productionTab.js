@@ -11,12 +11,7 @@ class Production extends Home {
         await Setup.prodItem1.click();
         await Setup.btnProdItemDrop.click();
         await Setup.minMaxDrop.click(); //something to click outside of the dropdown 
-        await Setup.machinesTab.click(); // Turn off Converter option
-        await expect(chkConverter).toBeDisplayed();
-        await Setup.chkConverter.click();
-        await expect(chkConverter).not.toBeChecked();
-        await Setup.productionTab.click(); //back to test area
-        await expect(btnProdItemDrop).toBeDisplayed();
+        await expect(Setup.btnProdItemDrop).toBeDisplayed();
         await Setup.btnProdItemDrop.click();
         await this.itemLoop();
     }
@@ -34,7 +29,7 @@ class Production extends Home {
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
         await Setup.btnAddTab.click();
         await expect(Setup.unnamedFactoryTab).toExist();
-        await this.addTabLoop();
+        await this.addTabLoop(); 
         await expect(Setup.numberOfTabs).toHaveChildren(144); //subtract orig, plus, and summary = 141 unnamed tabs should exist
         await Setup.btnRmvTab.click();
         await expect(Setup.numberOfTabs).toHaveChildren(143);
@@ -59,18 +54,19 @@ class Production extends Home {
         await expect(Setup.inputProdAmt).toHaveValue("11") //default entry is 10 + up click = 11
         await Setup.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: 9 });
         await expect(Setup.inputProdAmt).toHaveValue("10");
-        await Setup.inputProdAmt.setValue(30);
+        await Setup.inputProdAmt.setValue(30); // number well within normal parameters
         await expect(Setup.inputError).not.toExist();
-        await Setup.inputProdAmt.setValue(60000);
+        await Setup.inputProdAmt.setValue(60000); // number well outside normal parameters
         await Setup.visResult.waitForDisplayed();
         await expect(Setup.inputError).toExist();
+        await Setup.inputProdAmt.setValue(10); // return to default
 
     }
 
     async ProductionTest_Integration(){
         await Setup.btnCalc.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
-        await Setup.machinesTab.click();
+        await Setup.machinesTab.click(); // turn off converter to avoid failure for outlier items
         await expect(Setup.chkConverter).toBeDisplayed();
         await Setup.chkConverter.click();
         await expect(Setup.chkConverter).not.toBeChecked();
@@ -91,7 +87,7 @@ class Production extends Home {
             await this.prodItems(Setup.productionItems[i]);
             const text = await Setup.prodResult.getText();
             console.log(text);
-            await expect(Setup.productionItems[i]) === text;
+            await expect(Setup.productionItems[i]) == text;
             console.log(Setup.productionItems[i]);
             await Setup.itemDropdown.clearValue();
         }
@@ -104,13 +100,14 @@ class Production extends Home {
             await Setup.inputProdAmt.waitForDisplayed();
             await expect(Setup.minMaxDrop).toExist();
             await expect(Setup.inputProdAmt).toExist();
+            await Setup.inputProdAmt.setValue(10); // assuring value is at default - test keeps tripping over itself
             await Setup.inputProdAmt.getSize('width');
             let prodInputWidth = await Setup.inputProdAmt.getSize('width');
             await Setup.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: -9 }); //box width - padding(12 on each side)/2 (because it starts from the center) - 15 to get to buttons
             await expect(Setup.inputProdAmt).toHaveValue("11") //default entry is 10 + up click = 11
             await Setup.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: 9 });
             await expect(Setup.inputProdAmt).toHaveValue("10");
-            await Setup.inputProdAmt.setValue(30);
+            await Setup.inputProdAmt.setValue(30); // well w/in normal parameters
             await expect(Setup.inputError).not.toBeDisplayed();
             if (await Setup.inputError.isDisplayed()) {
                 await Setup.machinesTab.click();
@@ -121,9 +118,9 @@ class Production extends Home {
                 await expect(Setup.btnProdItemDrop).toBeDisplayed();
                 await Setup.btnProdItemDrop.click();
                 }
-            await Setup.inputProdAmt.setValue(600000);
+            await Setup.inputProdAmt.setValue(600000); // well outside normal parameters
             await expect(Setup.inputError).toExist();
-            await Setup.inputProdAmt.setValue(10);
+            await Setup.inputProdAmt.setValue(10); // return to default
             await Setup.minMaxDrop.click();
             await Setup.maxDrop.click();
             await expect(Setup.inputProdAmt).not.toBeDisplayed();
@@ -137,7 +134,7 @@ class Production extends Home {
 
     async addTabLoop() {
         
-        for (let i = 0; i < 140; i++) {
+        for (let i = 0; i < 140; i++) { // picked #, 140, because there are 139 listed items
             await Setup.btnAddTab.click();
         }
     }

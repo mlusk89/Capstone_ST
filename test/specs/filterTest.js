@@ -18,12 +18,12 @@ describe('My advanced filters test application', () => {
 
     it('should test that the Stack Size and Physical State dropdowns function properly', async () => {
         
-        await advancedFilters.stackAndPhysDropdownTest();
+        await AdvFilters.stackAndPhysDropdownTest();
     })
 
     it('should test the integration of all previous components to ensure they work together', async () => {
         
-        await advancedFilters.integrationTest();
+        await AdvFilters.integrationTest();
     })
 
 });
