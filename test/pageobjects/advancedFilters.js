@@ -28,10 +28,10 @@ class AdvFilters extends Home {
     async stackAndPhysDropdownTest() {
         await Setup.openClose(Setup.dropStack, Setup.stackFocus); //element to open and sub element to verify if open or closed
         await Setup.openClose(Setup.dropPhys, Setup.physSubEle);
-        await this.stackLoop();
-        await this.physLoop();
-        await this.physLoop2();
-        await this.stackLoop2();
+        await this.stackLoop_Functionality();
+        await this.physLoop_Functionality();
+        await this.physLoop_ResultCheck();
+        await this.stackLoop_ResultCheck();
     }
     async integrationTest() {
         await this.integrationAny(Setup.chkRad, Setup.chkEnergy); //element to open and sub element to verify if open or closed
@@ -43,36 +43,28 @@ class AdvFilters extends Home {
         await check1.click();
         await expect(check1).toBeChecked();
         await this.stackLoopRad(); //stack size w/rad and any phys state
-        await Setup.dropPhys.click();
-        await Setup.physLiquid.click();
+        await Setup.setPhysLiquid();
         await this.stackLoopRadLiquid(); //stack size w/rad and liquid state
-        await Setup.dropPhys.click();
-        await Setup.physSolid.click();
+        await Setup.setPhysSolid();
         await this.stackLoopRadSolid(); //stack size w/rad and solid state
-        await Setup.dropPhys.click();
-        await Setup.physAny.click();
+        await Setup.setPhysAny();
         await check2.click();
         await this.stackLoopRadEnergy(); //stack size w/rad+energy and any phys state
-        await Setup.dropPhys.click();
-        await Setup.physSolid.click();
+        await Setup.setPhysSolid
         await this.stackLoopRadEnergySolid(); //stack size w/rad+energy and solid state
-        await Setup.dropPhys.click();
-        await Setup.physLiquid.click();
+        await Setup.setPhysLiquid
         await this.stackLoopRadEnergyLiquid(); //stack size w/rad+energy and liquid state
-        await Setup.dropPhys.click();
-        await Setup.physAny.click();
+        await Setup.setPhysAny();
         await check1.click();
         await this.stackLoopEnergy(); //stack size w/energy and any phys state
-        await Setup.dropPhys.click();
-        await Setup.physSolid.click();
+        await Setup.setPhysSolid();
         await this.stackLoopEnergySolid(); //stack size w/energy and solid state
-        await Setup.dropPhys.click();
-        await Setup.physLiquid.click();
+        await Setup.setPhysLiquid();
         await this.stackLoopEnergyLiquid(); //stack size w/energy and liquid state
     }
 
 
-    async stackLoop() {
+    async stackLoop_Functionality() {
         const stackDropdown = await Setup.dropStack
         const stackOptions = await stackDropdown.$$('option');
         for (let i = 0; i < stackOptions.length; i++) {
@@ -83,7 +75,7 @@ class AdvFilters extends Home {
         }
     } 
 
-    async physLoop() {
+    async physLoop_Functionality() {
         const physDropdown = await Setup.dropPhys
         const physOptions = await physDropdown.$$('option');
         for (let i = 0; i < physOptions.length; i++){
@@ -94,7 +86,7 @@ class AdvFilters extends Home {
         }
     }
 
-    async physLoop2() {
+    async physLoop_ResultCheck() {
         const physDropdown = await Setup.dropPhys
         const physOptions = await physDropdown.$$('option');
         for (let i = 0; i < physOptions.length; i++){
@@ -108,11 +100,10 @@ class AdvFilters extends Home {
                 await expect(Setup.recipeList).toHaveChildren({ eq: 15 }); // liquid
             }
            }
-           await Setup.dropPhys.click();
-           await Setup.physAny.click();
+           await Setup.setPhysAny();
         }
 
-        async stackLoop2() {
+        async stackLoop_ResultCheck() {
             const stackDropdown = await Setup.dropStack
             const stackOptions = await stackDropdown.$$('option');
             for (let i = 0; i < stackOptions.length; i++){
@@ -132,8 +123,7 @@ class AdvFilters extends Home {
                     await expect(Setup.recipeList).toHaveChildren({ eq: 13 }); // stack size 500
                 }
             }
-            await Setup.dropStack.click();
-            await Setup.stackAny.click();
+            await Setup.setStackAny();
         }
 
         async stackLoopRad() {
@@ -156,8 +146,7 @@ class AdvFilters extends Home {
                     await expect(Setup.recipeList).toHaveChildren({ eq: 3 }); // stack size 500
                 }
             }
-            await Setup.dropStack.click();
-            await Setup.stackAny.click();
+            await Setup.setStackAny();
         }
 
         async stackLoopRadEnergy() {
@@ -180,8 +169,7 @@ class AdvFilters extends Home {
                     await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
                 }
             }
-            await Setup.dropStack.click();
-            await Setup.stackAny.click();
+            await Setup.setStackAny();
         }
 
         async stackLoopEnergy() {
@@ -204,8 +192,7 @@ class AdvFilters extends Home {
                     await expect(Setup.recipeList).toHaveChildren({ eq: 1 }); // stack size 500
                 }
             }
-            await Setup.dropStack.click();
-            await Setup.stackAny.click();
+            await Setup.setStackAny();
         }
 
         async stackLoopSolid() {
@@ -228,8 +215,7 @@ class AdvFilters extends Home {
                     await expect(Setup.recipeList).toHaveChildren({ eq: 13 }); // stack size 500
                 }
             }
-            await Setup.dropStack.click();
-            await Setup.stackAny.click();
+            await Setup.setStackAny();
         }
 
         async stackLoopLiquid() {
@@ -252,9 +238,11 @@ class AdvFilters extends Home {
                     await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
                 }
             }
-            await Setup.dropStack.click();
-            await Setup.stackAny.click();
+            await Setup.setStackAny();
         }
+
+
+
 
         async stackLoopRadSolid() {
             const stackDropdown = await Setup.dropStack
@@ -276,8 +264,7 @@ class AdvFilters extends Home {
                     await expect(Setup.recipeList).toHaveChildren({ eq: 3 }); // stack size 500
                 }
             }
-            await Setup.dropStack.click();
-            await Setup.stackAny.click();
+            await Setup.setStackAny();
         }
         
         async stackLoopRadLiquid() {
@@ -300,8 +287,7 @@ class AdvFilters extends Home {
                     await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
                 }
             }
-            await Setup.dropStack.click();
-            await Setup.stackAny.click();
+            await Setup.setStackAny();
         }
 
         async stackLoopRadEnergyLiquid() {
@@ -324,8 +310,7 @@ class AdvFilters extends Home {
                     await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
                 }
             }
-            await Setup.dropStack.click();
-            await Setup.stackAny.click();
+            await Setup.setStackAny();
         }
 
         async stackLoopRadEnergySolid() {
@@ -348,8 +333,7 @@ class AdvFilters extends Home {
                     await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
                 }
             }
-            await Setup.dropStack.click();
-            await Setup.stackAny.click();
+            await Setup.setStackAny();
         }
 
         async stackLoopEnergyLiquid() {
@@ -372,8 +356,7 @@ class AdvFilters extends Home {
                     await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
                 }
             }
-            await Setup.dropStack.click();
-            await Setup.stackAny.click();
+            await Setup.setStackAny();
         }
 
         async stackLoopEnergySolid() {
@@ -396,30 +379,27 @@ class AdvFilters extends Home {
                     await expect(Setup.recipeList).toHaveChildren({ eq: 1 }); // stack size 500
                 }
             }
-            await Setup.dropStack.click();
-            await Setup.stackAny.click();
+            await Setup.setStackAny();
         }
     
 
     async integrationAny(check1, check2) {
         await check1.click();
         await expect(check1).toBeChecked();
-        await this.stackLoop();
-        await this.physLoop();
+        await this.stackLoop_Functionality();
+        await this.physLoop_Functionality();
         await check2.click();
         await expect(check2).toBeChecked();
-        await this.stackLoop();
-        await this.physLoop();
+        await this.stackLoop_Functionality();
+        await this.physLoop_Functionality();
         await check1.click();
         await expect(check1).not.toBeChecked();
         await expect(check2).toBeChecked();
-        await this.stackLoop();
-        await this.physLoop();
+        await this.stackLoop_Functionality();
+        await this.physLoop_Functionality();
         await check2.click();
         await expect(check2).not.toBeChecked();
     }
-
-    
    
 }
 

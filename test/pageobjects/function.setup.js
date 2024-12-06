@@ -124,10 +124,6 @@ class Setup extends Home {
         return $('.dropdown-item.active[ui-sref="schematics"]');
     }
 
-    get inputSearch() {
-        return $('#queryInput');
-    }
-
     get btnAdv() {
         return $('.btn.btn-secondary.ng-binding');
     }
@@ -176,29 +172,7 @@ class Setup extends Home {
         return $('[href="/1.0/codex/items/ai-limiter"]');
     }
 
-    get btnRecipes() {
-        return $(`[ng-click="ctrl.tab.tab = 'recipes'"]`);
-    }
-
-    get btnAltAll() {
-        return $('[ng-click="ctrl.tab.setAllAlternateRecipes(true)"]');
-    }
-
-    get btnAltNone() {
-        return $('[ng-click="ctrl.tab.setAllAlternateRecipes(false)"]');
-    }
-
-    get btnBaseAll() {
-        return $('[ng-click="ctrl.tab.setAllBasicRecipes(true)"]');
-    }
-
-    get btnBaseNone() {
-        return $('[ng-click="ctrl.tab.setAllBasicRecipes(false)"]');
-    }
-
-    get btnSearchX() {
-        return $('.clear-filter.has-content');
-    }
+ 
 
 
     items = ["Adaptive Control Unit", "AI Expansion Server", "AI Limiter", "Alclad Aluminum Sheet",
@@ -266,58 +240,6 @@ class Setup extends Home {
     ]
 
 
-
-
-    async captchaDetector() {
-        await this.btnCalc.click();
-        await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
-        await this.btnAddTab.click();
-        await this.btnAddTab.click();
-        await this.btnAddTab.click();
-        await this.btnRmvTab.click();
-        await this.btnProdItemDrop.click();
-        await this.prodItemsTemp.click();
-        await this.inputProdamt.getSize('width')
-        let prodInputWidth = await this.inputProdamt.getSize('width')
-        await this.inputProdamt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: -9 });
-        console.log("wholeWidth: ", prodInputWidth, ": ", "calcWidth: ", (Math.round((prodInputWidth / 2) - 12)))
-        await browser.pause(2000)
-        await this.inputProdamt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: 9 })
-        await browser.pause(2000)
-        await this.btnAddProd.click();
-        await this.btnAddProd.click();
-        await this.btnAddProd.click();
-        await this.btnAddProd.click();
-        await this.btnAddProd.click();
-        await this.btnRecipes.click();
-        await this.btnAltAll.click();
-        await this.btnAltNone.click();
-        await this.btnAltAll.click();
-        await this.btnAltNone.click();
-        await this.btnBaseAll.click();
-        await this.btnBaseNone.click();
-        await this.btnBaseAll.click();
-        await this.btnBaseNone.click();
-        await this.btnDropCodex.click();
-        await this.btnItems.click();
-        await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/codex/items");
-        await this.btnAdv.click();
-        await this.chkRad.click();
-        await this.chkRad.click();
-
-    }
-
-    async search(items) {
-        await this.inputSearch.setValue(items);
-    }
-
-    async searchLoop() {
-        for (let i = 0; i < this.items.length; i++) {
-            await this.search(this.items[i])
-            await this.btnSearchX.click()
-        }
-    }
-
     async openClose(element, subElement, isOpen = false, offset = { y: 15 }) {
         await element.click();
         await element.click();
@@ -333,6 +255,25 @@ class Setup extends Home {
         }
     }
 
+    async setPhysAny() {
+        await this.dropPhys.click();
+        await this.physAny.click();
+    }
+
+    async setPhysLiquid() {
+        await this.dropPhys.click();
+        await this.physLiquid.click();
+    }
+
+    async setPhysSolid() {
+        await this.dropPhys.click();
+        await this.physSolid.click();
+    }
+
+    async setStackAny() {
+        await this.dropStack.click();
+        await this.stackAny.click();
+    }
 
     open() {
         return super.open('login');
