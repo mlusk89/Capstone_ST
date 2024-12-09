@@ -5,7 +5,7 @@ import Setup from '../pageobjects/function.setup.js'
 describe('My production tab test application', () => {
     it('should open the item selection dropdown and test all entries within', async () => {
         
-        await Setup.open();
+        await Setup.startup();
         await Production.ProductionTest_ItemDropdown();
         
     });
@@ -18,21 +18,21 @@ describe('My production tab test application', () => {
 
     it('should test the clone, delete, add, and remove functions', async () => {
 
-        await Setup.open();
+        await Setup.startup();
         await Production.ProductionTest_CRUD();
 
     });
 
     it('should test the field for the number of items to produce', async () => {
 
-        await Setup.open();
+        await Setup.startup();
         await Production.ProductionTest_ItpField();
 
     });
 
     it('should test the interactions between components', async () => {
         
-        await Setup.open();
+        await Setup.startup();
         await Production.ProductionTest_Integration();
 
     });

@@ -2,40 +2,41 @@
 import Home from './baseURL.js';
 import { expect } from '@wdio/globals'
 import Setup from '../pageobjects/function.setup.js'
+import Selectors from '../pageobjects/selectorSetup.js'
 
 class AdvFilters extends Home {
     
     async filtersOpenTest() {
-        await Setup.btnDropCodex.waitForDisplayed({ timeout: 5000 })
-        await Setup.btnDropCodex.click();
-        await expect(Setup.btnItems).toBeDisplayed();
-        await Setup.btnItems.click();
+        await Selectors.btnDropCodex.waitForDisplayed({ timeout: 5000 })
+        await Selectors.btnDropCodex.click();
+        await expect(Selectors.btnItems).toBeDisplayed();
+        await Selectors.btnItems.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/codex/items");
-        await Setup.openClose(Setup.btnAdv, Setup.chkRad); //element to open and sub element to verify if open or closed
+        await Setup.openClose(Selectors.btnAdv, Selectors.chkRad); //element to open and sub element to verify if open or closed
     }
     async checkTest() {    
-        await Setup.btnAdv.click();
-        await expect(Setup.chkRad).toBeDisplayed();
-        await Setup.chkRad.click();
-        await expect(Setup.chkRad).toBeChecked();
-        await Setup.chkEnergy.click();
-        await expect(Setup.chkEnergy).toBeChecked();
-        await Setup.chkRad.click();
-        await expect(Setup.chkRad).not.toBeChecked();
-        await Setup.chkEnergy.click();
-        await expect(Setup.chkEnergy).not.toBeChecked();
+        await Selectors.btnAdv.click();
+        await expect(Selectors.chkRad).toBeDisplayed();
+        await Selectors.chkRad.click();
+        await expect(Selectors.chkRad).toBeChecked();
+        await Selectors.chkEnergy.click();
+        await expect(Selectors.chkEnergy).toBeChecked();
+        await Selectors.chkRad.click();
+        await expect(Selectors.chkRad).not.toBeChecked();
+        await Selectors.chkEnergy.click();
+        await expect(Selectors.chkEnergy).not.toBeChecked();
     }
     async stackAndPhysDropdownTest() {
-        await Setup.openClose(Setup.dropStack, Setup.stackFocus); //element to open and sub element to verify if open or closed
-        await Setup.openClose(Setup.dropPhys, Setup.physSubEle);
+        await Setup.openClose(Selectors.dropStack, Selectors.stackFocus); //element to open and sub element to verify if open or closed
+        await Setup.openClose(Selectors.dropPhys, Selectors.physSubEle);
         await this.stackLoop_Functionality();
         await this.physLoop_Functionality();
         await this.physLoop_ResultCheck();
         await this.stackLoop_ResultCheck();
     }
     async integrationTest() {
-        await this.integrationAny(Setup.chkRad, Setup.chkEnergy); //element to open and sub element to verify if open or closed
-        await this.integrationPhysState(Setup.chkRad, Setup.chkEnergy);
+        await this.integrationAny(Selectors.chkRad, Selectors.chkEnergy); //element to open and sub element to verify if open or closed
+        await this.integrationPhysState(Selectors.chkRad, Selectors.chkEnergy);
     }
 
 
@@ -63,9 +64,31 @@ class AdvFilters extends Home {
         await this.stackLoopEnergyLiquid(); //stack size w/energy and liquid state
     }
 
+    async integrationAny(check1, check2) {
+        await check1.click();
+        await expect(check1).toBeChecked();
+        await this.stackLoop_Functionality();
+        await this.physLoop_Functionality();
+        await check2.click();
+        await expect(check2).toBeChecked();
+        await this.stackLoop_Functionality();
+        await this.physLoop_Functionality();
+        await check1.click();
+        await expect(check1).not.toBeChecked();
+        await expect(check2).toBeChecked();
+        await this.stackLoop_Functionality();
+        await this.physLoop_Functionality();
+        await check2.click();
+        await expect(check2).not.toBeChecked();
+    }
+
+    async testNewLoop() {
+        let stackOptions = await Selectors.dropStack.$$('option');
+        await loopAbstract(Selectors.dropStack, stackOptions, Setup.expectedChildrenMap_Any, Setup.setStackAny);
+    }
 
     async stackLoop_Functionality() {
-        const stackDropdown = await Setup.dropStack
+        const stackDropdown = await Selectors.dropStack
         const stackOptions = await stackDropdown.$$('option');
         for (let i = 0; i < stackOptions.length; i++) {
             await stackDropdown.selectByIndex(i); 
@@ -76,7 +99,7 @@ class AdvFilters extends Home {
     } 
 
     async physLoop_Functionality() {
-        const physDropdown = await Setup.dropPhys
+        const physDropdown = await Selectors.dropPhys
         const physOptions = await physDropdown.$$('option');
         for (let i = 0; i < physOptions.length; i++){
             await physDropdown.selectByIndex(i);
@@ -87,24 +110,24 @@ class AdvFilters extends Home {
     }
 
     async physLoop_ResultCheck() {
-        const physDropdown = await Setup.dropPhys
+        const physDropdown = await Selectors.dropPhys
         const physOptions = await physDropdown.$$('option');
         for (let i = 0; i < physOptions.length; i++){
             await physDropdown.selectByIndex(i);
             let selectedOption = await physDropdown.getValue();
             if (selectedOption === '0') {
-                await expect(Setup.recipeList).toHaveChildren({ eq: 174 }); // any
+                await expect(Selectors.recipeList).toHaveChildren({ eq: 174 }); // any
             } else if (selectedOption === '1') {
-                await expect(Setup.recipeList).toHaveChildren({ eq: 159 }); // solid
+                await expect(Selectors.recipeList).toHaveChildren({ eq: 159 }); // solid
             } else if (selectedOption === '2') {
-                await expect(Setup.recipeList).toHaveChildren({ eq: 15 }); // liquid
+                await expect(Selectors.recipeList).toHaveChildren({ eq: 15 }); // liquid
             }
            }
            await Setup.setPhysAny();
         }
 
         async stackLoop_ResultCheck() {
-            const stackDropdown = await Setup.dropStack
+            const stackDropdown = await Selectors.dropStack
             const stackOptions = await stackDropdown.$$('option');
             for (let i = 0; i < stackOptions.length; i++){
                 await stackDropdown.selectByIndex(i);
@@ -126,8 +149,17 @@ class AdvFilters extends Home {
             await Setup.setStackAny();
         }
 
+        async loopAbstract(dropdown, options, expectedChildrenMap, resetAction) {
+            let selectedOption = await dropdown.getvalue();
+            for(let i = 0; i < options.length; i++) {
+                await dropdown.selectByIndex(i);
+                await expect(Selectors.recipeList).toHaveChildren({ eq: expectedChildrenMap[selectedOption]});
+            }
+            await resetAction();
+        }
+
         async stackLoopRad() {
-            const stackDropdown = await Setup.dropStack
+            const stackDropdown = await Selectors.dropStack
             const stackOptions = await stackDropdown.$$('option');
             for (let i = 0; i < stackOptions.length; i++){
                 await stackDropdown.selectByIndex(i);
@@ -150,7 +182,7 @@ class AdvFilters extends Home {
         }
 
         async stackLoopRadEnergy() {
-            const stackDropdown = await Setup.dropStack
+            const stackDropdown = await Selectors.dropStack
             const stackOptions = await stackDropdown.$$('option');
             for (let i = 0; i < stackOptions.length; i++){
                 await stackDropdown.selectByIndex(i);
@@ -173,7 +205,7 @@ class AdvFilters extends Home {
         }
 
         async stackLoopEnergy() {
-            const stackDropdown = await Setup.dropStack
+            const stackDropdown = await Selectors.dropStack
             const stackOptions = await stackDropdown.$$('option');
             for (let i = 0; i < stackOptions.length; i++){
                 await stackDropdown.selectByIndex(i);
@@ -196,7 +228,7 @@ class AdvFilters extends Home {
         }
 
         async stackLoopSolid() {
-            const stackDropdown = await Setup.dropStack
+            const stackDropdown = await Selectors.dropStack
             const stackOptions = await stackDropdown.$$('option');
             for (let i = 0; i < stackOptions.length; i++){
                 await stackDropdown.selectByIndex(i);
@@ -219,7 +251,7 @@ class AdvFilters extends Home {
         }
 
         async stackLoopLiquid() {
-            const stackDropdown = await Setup.dropStack
+            const stackDropdown = await Selectors.dropStack
             const stackOptions = await stackDropdown.$$('option');
             for (let i = 0; i < stackOptions.length; i++){
                 await stackDropdown.selectByIndex(i);
@@ -241,11 +273,8 @@ class AdvFilters extends Home {
             await Setup.setStackAny();
         }
 
-
-
-
         async stackLoopRadSolid() {
-            const stackDropdown = await Setup.dropStack
+            const stackDropdown = await Selectors.dropStack
             const stackOptions = await stackDropdown.$$('option');
             for (let i = 0; i < stackOptions.length; i++){
                 await stackDropdown.selectByIndex(i);
@@ -268,7 +297,7 @@ class AdvFilters extends Home {
         }
         
         async stackLoopRadLiquid() {
-            const stackDropdown = await Setup.dropStack
+            const stackDropdown = await Selectors.dropStack
             const stackOptions = await stackDropdown.$$('option');
             for (let i = 0; i < stackOptions.length; i++){
                 await stackDropdown.selectByIndex(i);
@@ -291,7 +320,7 @@ class AdvFilters extends Home {
         }
 
         async stackLoopRadEnergyLiquid() {
-            const stackDropdown = await Setup.dropStack
+            const stackDropdown = await Selectors.dropStack
             const stackOptions = await stackDropdown.$$('option');
             for (let i = 0; i < stackOptions.length; i++){
                 await stackDropdown.selectByIndex(i);
@@ -314,7 +343,7 @@ class AdvFilters extends Home {
         }
 
         async stackLoopRadEnergySolid() {
-            const stackDropdown = await Setup.dropStack
+            const stackDropdown = await Selectors.dropStack
             const stackOptions = await stackDropdown.$$('option');
             for (let i = 0; i < stackOptions.length; i++){
                 await stackDropdown.selectByIndex(i);
@@ -337,7 +366,7 @@ class AdvFilters extends Home {
         }
 
         async stackLoopEnergyLiquid() {
-            const stackDropdown = await Setup.dropStack
+            const stackDropdown = await Selectors.dropStack
             const stackOptions = await stackDropdown.$$('option');
             for (let i = 0; i < stackOptions.length; i++){
                 await stackDropdown.selectByIndex(i);
@@ -360,7 +389,7 @@ class AdvFilters extends Home {
         }
 
         async stackLoopEnergySolid() {
-            const stackDropdown = await Setup.dropStack
+            const stackDropdown = await Selectors.dropStack
             const stackOptions = await stackDropdown.$$('option');
             for (let i = 0; i < stackOptions.length; i++){
                 await stackDropdown.selectByIndex(i);
@@ -381,25 +410,6 @@ class AdvFilters extends Home {
             }
             await Setup.setStackAny();
         }
-    
-
-    async integrationAny(check1, check2) {
-        await check1.click();
-        await expect(check1).toBeChecked();
-        await this.stackLoop_Functionality();
-        await this.physLoop_Functionality();
-        await check2.click();
-        await expect(check2).toBeChecked();
-        await this.stackLoop_Functionality();
-        await this.physLoop_Functionality();
-        await check1.click();
-        await expect(check1).not.toBeChecked();
-        await expect(check2).toBeChecked();
-        await this.stackLoop_Functionality();
-        await this.physLoop_Functionality();
-        await check2.click();
-        await expect(check2).not.toBeChecked();
-    }
    
 }
 

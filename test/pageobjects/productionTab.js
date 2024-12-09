@@ -2,152 +2,151 @@
 import Home from './baseURL.js';
 import { expect } from '@wdio/globals'
 import Setup from '../pageobjects/function.setup.js'
+import Selectors from '../pageobjects/selectorSetup.js'
 
 class Production extends Home {
     async ProductionTest_ItemDropdown() {
-        await Setup.btnCalc.click();
+        await Selectors.btnCalc.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
-        await Setup.btnProdItemDrop.click();
-        await Setup.prodItem1.click();
-        await Setup.btnProdItemDrop.click();
-        await Setup.minMaxDrop.click(); //something to click outside of the dropdown 
-        await expect(Setup.btnProdItemDrop).toBeDisplayed();
-        await Setup.btnProdItemDrop.click();
+        await Selectors.btnProdItemDrop.click();
+        await Selectors.prodItem1.click();
+        await Selectors.btnProdItemDrop.click();
+        await Selectors.minMaxDrop.click(); //something to click outside of the dropdown 
+        await expect(Selectors.btnProdItemDrop).toBeDisplayed();
+        await Selectors.btnProdItemDrop.click();
         await this.itemLoop();
     }
 
     async ProductionTest_IpmDropdown() {
-        await Setup.btnCalc.click();
+        await Selectors.btnCalc.click();
         await Setup.openClose(Setup.minMaxDrop, Setup.maxDrop);
-        await Setup.minMaxDrop.click();
-        await Setup.maxDrop.click();
-        await expect(Setup.inputProdamt).not.toExist
+        await Selectors.minMaxDrop.click();
+        await Selectors.maxDrop.click();
+        await expect(Selectors.inputProdamt).not.toExist
     }   
      
     async ProductionTest_CRUD() {
-        await Setup.btnCalc.click();
+        await Selectors.btnCalc.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
-        await Setup.btnAddTab.click();
-        await expect(Setup.unnamedFactoryTab).toExist();
+        await Selectors.btnAddTab.click();
+        await expect(Selectors.unnamedFactoryTab).toExist();
         await this.addTabLoop(); 
-        await expect(Setup.numberOfTabs).toHaveChildren(144); //subtract orig, plus, and summary = 141 unnamed tabs should exist
-        await Setup.btnRmvTab.click();
-        await expect(Setup.numberOfTabs).toHaveChildren(143);
+        await expect(Selectors.numberOfTabs).toHaveChildren(144); //subtract orig, plus, and summary = 141 unnamed tabs should exist
+        await Selectors.btnRmvTab.click();
+        await expect(Selectors.numberOfTabs).toHaveChildren(143);
         await this.rmvTabLoop();
-        await expect(Setup.unnamedFactoryTab).not.toExist();
-        await Setup.btnAddProd.click();
-        await expect(Setup.addProductTable).toHaveChildren(3) //original and Add Product button + 1 new
+        await expect(Selectors.unnamedFactoryTab).not.toExist();
+        await Selectors.btnAddProd.click();
+        await expect(Selectors.addProductTable).toHaveChildren(3) //original and Add Product button + 1 new
         await this.addProductLoop();
-        await expect(Setup.addProductTable).toHaveChildren(143)
-        await Setup.clrProdLine.click();
-        await expect(Setup.addProductTable).toHaveChildren(2) // Only orig and Add Product left
+        await expect(Selectors.addProductTable).toHaveChildren(143)
+        await Selectors.clrProdLine.click();
+        await expect(Selectors.addProductTable).toHaveChildren(2) // Only orig and Add Product left
     }
 
     async ProductionTest_ItpField() {
-        await Setup.btnCalc.click();
+        await Selectors.btnCalc.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
-        await Setup.btnProdItemDrop.click();
-        await Setup.prodItem1.click();
-        await Setup.inputProdAmt.getSize('width');
-        let prodInputWidth = await Setup.inputProdAmt.getSize('width');
-        await Setup.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: -9 }); //box width - padding(12 on each side)/2 (because it starts from the center) - 15 to get to buttons
-        await expect(Setup.inputProdAmt).toHaveValue("11") //default entry is 10 + up click = 11
-        await Setup.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: 9 });
-        await expect(Setup.inputProdAmt).toHaveValue("10");
-        await Setup.inputProdAmt.setValue(30); // number well within normal parameters
-        await expect(Setup.inputError).not.toExist();
-        await Setup.inputProdAmt.setValue(60000); // number well outside normal parameters
-        await Setup.visResult.waitForDisplayed();
-        await expect(Setup.inputError).toExist();
-        await Setup.inputProdAmt.setValue(10); // return to default
+        await Selectors.btnProdItemDrop.click();
+        await Selectors.prodItem1.click();
+        await Selectors.inputProdAmt.getSize('width');
+        let prodInputWidth = await Selectors.inputProdAmt.getSize('width');
+        await Selectors.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: -9 }); //box width - padding(12 on each side)/2 (because it starts from the center) - 15 to get to buttons
+        await expect(Selectors.inputProdAmt).toHaveValue("11") //default entry is 10 + up click = 11
+        await Selectors.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: 9 });
+        await expect(Selectors.inputProdAmt).toHaveValue("10");
+        await Selectors.inputProdAmt.setValue(30); // number well within normal parameters
+        await expect(Selectors.inputError).not.toExist();
+        await Selectors.inputProdAmt.setValue(60000); // number well outside normal parameters
+        await Selectors.visResult.waitForDisplayed();
+        await expect(Selectors.inputError).toExist();
+        await Selectors.inputProdAmt.setValue(10); // return to default
 
     }
 
     async ProductionTest_Integration(){
-        await Setup.btnCalc.click();
+        await Selectors.btnCalc.click();
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/production");
-        await Setup.machinesTab.click(); // turn off converter to avoid failure for outlier items
-        await expect(Setup.chkConverter).toBeDisplayed();
-        await Setup.chkConverter.click();
-        await expect(Setup.chkConverter).not.toBeChecked();
-        await Setup.productionTab.click();
-        await expect(Setup.btnProdItemDrop).toBeDisplayed();
-        await Setup.btnProdItemDrop.click();
+        await Selectors.machinesTab.click(); // turn off converter to avoid failure for outlier items
+        await expect(Selectors.chkConverter).toBeDisplayed();
+        await Selectors.chkConverter.click();
+        await expect(Selectors.chkConverter).not.toBeChecked();
+        await Selectors.productionTab.click();
+        await expect(Selectors.btnProdItemDrop).toBeDisplayed();
+        await Selectors.btnProdItemDrop.click();
         await this.integrationLoop();
     }
 
 
 
     async prodItems(items) {
-        await Setup.itemDropdown.setValue(items);
+        await Selectors.itemDropdown.setValue(items);
     }
 
     async itemLoop() {
-        for (let i = 0; i < Setup.productionItems.length; i++) {
-            await this.prodItems(Setup.productionItems[i]);
-            const text = await Setup.prodResult.getText();
-            console.log(text);
-            await expect(Setup.productionItems[i]) == text;
-            console.log(Setup.productionItems[i]);
-            await Setup.itemDropdown.clearValue();
+        for (let i = 0; i < Selectors.productionItems.length; i++) {
+            await this.prodItems(Selectors.productionItems[i]);
+            const text = await Selectors.prodResult.getText();
+            await expect(Selectors.productionItems[i]) == text;
+            await Selectors.itemDropdown.clearValue();
         }
     }
 
     async integrationLoop() {
-        for (let i = 0; i < Setup.productionItems.length; i++) {
-            await this.prodItems(Setup.productionItems[i]);
-            await Setup.prodItem1.click();
-            await Setup.inputProdAmt.waitForDisplayed();
-            await expect(Setup.minMaxDrop).toExist();
-            await expect(Setup.inputProdAmt).toExist();
-            await Setup.inputProdAmt.setValue(10); // assuring value is at default - test keeps tripping over itself
-            await Setup.inputProdAmt.getSize('width');
-            let prodInputWidth = await Setup.inputProdAmt.getSize('width');
-            await Setup.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: -9 }); //box width - padding(12 on each side)/2 (because it starts from the center) - 15 to get to buttons
-            await expect(Setup.inputProdAmt).toHaveValue("11") //default entry is 10 + up click = 11
-            await Setup.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: 9 });
-            await expect(Setup.inputProdAmt).toHaveValue("10");
-            await Setup.inputProdAmt.setValue(30); // well w/in normal parameters
-            await expect(Setup.inputError).not.toBeDisplayed();
-            if (await Setup.inputError.isDisplayed()) {
-                await Setup.machinesTab.click();
-                await expect(Setup.chkConverter).toBeDisplayed();
-                await Setup.chkConverter.click();
-                await expect(Setup.chkConverter).toBeChecked();
-                await Setup.productionTab.click();
-                await expect(Setup.btnProdItemDrop).toBeDisplayed();
-                await Setup.btnProdItemDrop.click();
+        for (let i = 0; i < Selectors.productionItems.length; i++) {
+            await this.prodItems(Selectors.productionItems[i]);
+            await Selectors.prodItem1.click();
+            await Selectors.inputProdAmt.waitForDisplayed();
+            await expect(Selectors.minMaxDrop).toExist();
+            await expect(Selectors.inputProdAmt).toExist();
+            await Selectors.inputProdAmt.setValue(10); // assuring value is at default - test keeps tripping over itself
+            await Selectors.inputProdAmt.getSize('width');
+            let prodInputWidth = await Selectors.inputProdAmt.getSize('width');
+            await Selectors.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: -9 }); //box width - padding(12 on each side)/2 (because it starts from the center) - 15 to get to buttons
+            await expect(Selectors.inputProdAmt).toHaveValue("11") //default entry is 10 + up click = 11
+            await Selectors.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: 9 });
+            await expect(Selectors.inputProdAmt).toHaveValue("10");
+            await Selectors.inputProdAmt.setValue(30); // well w/in normal parameters
+            await expect(Selectors.inputError).not.toBeDisplayed();
+            if (await Selectors.inputError.isDisplayed()) {
+                await Selectors.machinesTab.click();
+                await expect(Selectors.chkConverter).toBeDisplayed();
+                await Selectors.chkConverter.click();
+                await expect(Selectors.chkConverter).toBeChecked();
+                await Selectors.productionTab.click();
+                await expect(Selectors.btnProdItemDrop).toBeDisplayed();
+                await Selectors.btnProdItemDrop.click();
                 }
-            await Setup.inputProdAmt.setValue(600000); // well outside normal parameters
-            await expect(Setup.inputError).toExist();
-            await Setup.inputProdAmt.setValue(10); // return to default
-            await Setup.minMaxDrop.click();
-            await Setup.maxDrop.click();
-            await expect(Setup.inputProdAmt).not.toBeDisplayed();
-            await Setup.minMaxDrop.click();
-            await Setup.minDrop.click();
-            await expect(Setup.inputProdAmt).toExist();
-            await Setup.btnProdItemDrop.click();
-            await Setup.itemDropdown.clearValue();
+            await Selectors.inputProdAmt.setValue(600000); // well outside normal parameters
+            await expect(Selectors.inputError).toExist();
+            await Selectors.inputProdAmt.setValue(10); // return to default
+            await Selectors.minMaxDrop.click();
+            await Selectors.maxDrop.click();
+            await expect(Selectors.inputProdAmt).not.toBeDisplayed();
+            await Selectors.minMaxDrop.click();
+            await Selectors.minDrop.click();
+            await expect(Selectors.inputProdAmt).toExist();
+            await Selectors.btnProdItemDrop.click();
+            await Selectors.itemDropdown.clearValue();
         }
     }
 
     async addTabLoop() {
         
         for (let i = 0; i < 140; i++) { // picked #, 140, because there are 139 listed items
-            await Setup.btnAddTab.click();
+            await Selectors.btnAddTab.click();
         }
     }
 
     async rmvTabLoop() {
         for (let i = 0; i < 140; i++) {
-            await Setup.btnRmvTab.click();
+            await Selectors.btnRmvTab.click();
         }
     }
 
     async addProductLoop() {
         for (let i = 0; i < 140; i++) {
-            await Setup.btnAddProd.click();
+            await Selectors.btnAddProd.click();
         }
     }
 

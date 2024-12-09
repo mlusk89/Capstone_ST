@@ -1,177 +1,152 @@
 import { $ } from '@wdio/globals';
 import Home from './baseURL.js';
 import { expect } from '@wdio/globals'
+import Selectors from '../pageobjects/selectorSetup.js'
 
 class Setup extends Home {
 
-    get btnCalc() {
-        return $('[href="/1.0/production"]');
+    
+
+    async openClose(element, subElement, isOpen = false, offset = { y: 15 }) {
+        await element.click();
+        await element.click();
+        await element.click();
+        await element.click(offset);
+        if (isOpen) {
+            await expect(subElement).toBeClickable();
+        }
+        else {
+            await expect(subElement).not.toBeClickable();
+        }
     }
 
-    get btnAddTab() {
-        return $('[ng-click="ctrl.addEmptyTab();"]');
+    async setPhysAny() {
+        await Selectors.dropPhys.click();
+        await Selectors.physAny.click();
     }
 
-    get btnRmvTab() {
-        return $('[ng-click="ctrl.removeTab(ctrl.tab)"]');
+    async setPhysLiquid() {
+        await Selectors.dropPhys.click();
+        await Selectors.physLiquid.click();
     }
 
-    get unnamedFactoryTab() {
-        return $('[data-original-title="Unnamed Factory"]')
+    async setPhysSolid() {
+        await Selectors.dropPhys.click();
+        await Selectors.physSolid.click();
     }
 
-    get numberOfTabs() {
-        return $('[ng-model="ctrl.tabs"]') 
+    async setStackAny() {
+        await Selectors.dropStack.click();
+        await Selectors.stackAny.click();
     }
 
-    get addProductTable() {
-        return $('[ng-model="ctrl.tab.data.request.production"]')
+    expectedChildrenMap_Any = {
+        "0" : 174,
+        "1" : 16,
+        "2" : 62,
+        "3" : 56,
+        "4" : 27,
+        "5" : 1
+    };
+
+    expectedChildrenMap_Radioactive = {
+        "0" : 11,
+        "1" : 0,
+        "2" : 3,
+        "3" : 3,
+        "4" : 2,
+        "5" : 3
+    };
+
+    expectedChildrenMap_RadioactivewithEnergyValue = {
+        "0" : 3,
+        "1" : 0,
+        "2" : 0,
+        "3" : 0,
+        "4" : 0,
+        "5" : 0
     }
 
-    get clrProdLine() {
-        return $('[ng-click="ctrl.tab.clearProducts()"]')
+    expectedChildrenMap_withEnergyValue = {
+        "0" : 26,
+        "1" : 0,
+        "2" : 10,
+        "3" : 9,
+        "4" : 6,
+        "5" : 1
+    };
+
+    expectedChildrenMap_LiquidState = {
+        "0" : 15,
+        "1" : 0,
+        "2" : 15,
+        "3" : 0,
+        "4" : 0,
+        "5" : 0
+    };
+
+    expectedChildrenMap_SolidState = {
+        "0" : 159,
+        "1" : 16,
+        "2" : 47,
+        "3" : 56,
+        "4" : 27,
+        "5" : 13
+    };
+
+    expectedChildrenMap_RadioactiveWithLiquidState = {
+        "0" : 0,
+        "1" : 0,
+        "2" : 0,
+        "3" : 0,
+        "4" : 0,
+        "5" : 0
+    };
+
+    expectedChildrenMap_RadioactiveWithSolidState = {
+        "0" : 11,
+        "1" : 0,
+        "2" : 3,
+        "3" : 3,
+        "4" : 2,
+        "5" : 3
+    };
+
+    expectedChildrenMap_RadioactiveWithEnergyValueandLiquidState = {
+        "0" : 0,
+        "1" : 0,
+        "2" : 0,
+        "3" : 0,
+        "4" : 0,
+        "5" : 0
     }
 
-    get machinesTab() {
-        return $(`[ng-class="{active: ctrl.tab.tab === 'machines'}"]`);
-    }
+    expectedChildrenMap_RadioactiveWithEnergyValueandSolidState = {
+        "0" : 3,
+        "1" : 0,
+        "2" : 3,
+        "3" : 0,
+        "4" : 0,
+        "5" : 0
+    };
 
-    get chkConverter() {
-        return $('//span[contains(text(), \"Converter\")]')
-    }
+    expectedChildrenMap_withEnergyValueandLiquidState = {
+        "0" : 7,
+        "1" : 0,
+        "2" : 7,
+        "3" : 0,
+        "4" : 0,
+        "5" : 0
+    };
 
-    get productionTab() {
-        return $(`[ng-class="{active: ctrl.tab.tab === 'production'}"]`);
-    }
-
-    get btnProdItemDrop() {
-        return $('[ng-model="product.item"]');
-    }
-
-    get clearProdItem() {
-        return $('[aria-label="Select box clear"]');
-    }
-
-    get itemDropdown() {
-        return $('[type="search"]');
-    }
-
-    get prodItems() {
-        return $('[ng-bind="item.name"]') 
-    }
-
-    get prodItem1() {
-        return $('.ui-select-choices-row-inner');
-    }
-
-    get prodResult() {
-        return $("span.ng-binding[ng-bind='item.name']")
-    }
-
-    get minMaxDrop() {
-        return $('[ng-show="product.item"]');
-    }
-
-    get minDrop() {
-        return $('[label="items/min"]');
-    }
-
-    get maxDrop() {
-        return $('[label="maximize"]');
-    }
-
-    get inputProdAmt() {
-        return $('[ng-model="product.amount"]');
-    }
-
-    get inputError() {
-        return $('//div[@class="visualization-result" and contains(text(), \"Unfortunately\")]')
-    }
-
-    get visResult() {
-        return $('.visualization-result')
-    }
-
-    get btnAddProd() {
-        return $('[ng-click="ctrl.tab.addEmptyProduct()"]');
-    }
-
-    get btnDropCodex() {
-        return $('a#browser_toggle');
-    }
-
-    get btnItems() {
-        return $('[href="/1.0/codex/items"]');
-    }
-
-    get btnItemsHi() {
-        return $('.dropdown-item.active[ui-sref="items"]');
-    }
-
-    get btnBuildings() {
-        return $('[ui-sref="buildings"]');
-    }
-
-    get btnBuildingsHi() {
-        return $('.dropdown-item.active[ui-sref="buildings"]');
-    }
-
-    get btnSchema() {
-        return $('[ui-sref="schematics"]');
-    }
-
-    get btnSchemaHi() {
-        return $('.dropdown-item.active[ui-sref="schematics"]');
-    }
-
-    get btnAdv() {
-        return $('.btn.btn-secondary.ng-binding');
-    }
-
-    get recipeList() {
-        return $('.recipe-list');
-    }
-
-    get chkRad() {
-        return $('[ng-model="ctrl.filtersService.filter.onlyRadioactive"]');
-    }
-
-    get chkEnergy() {
-        return $('[ng-model="ctrl.filtersService.filter.onlyWithEnergyValue"]');
-    }
-
-    get dropStack() {
-        return $('select[ng-model="ctrl.filtersService.filter.stackSize"]');
-    }
-
-    get stackAny() {
-        return $('[ng-repeat="option in ctrl.stackSizes"]:first-of-type');
-    }
-
-    get dropPhys() {
-        return $('select[ng-model="ctrl.filtersService.filter.physicalState"]');
-    }
-
-    get physSolid() {
-        return $('[value="solid"]');
-    }
-
-    get physLiquid() {
-        return $('[value="liquid"]');
-    }
-
-    get physAny() {
-        return $('[ng-repeat="option in ctrl.physicalStates"]:first-of-type');
-    }
-
-    get physSubEle() {
-        return $('[value="solid"]');
-    }
-
-    get btnItem1() {
-        return $('[href="/1.0/codex/items/ai-limiter"]');
-    }
-
+    expectedChildrenMap_withEnergyValueandSolidState = {
+        "0" : 19,
+        "1" : 0,
+        "2" : 3,
+        "3" : 9,
+        "4" : 6,
+        "5" : 1
+    };
 
     productionItems = ["Adaptive Control Unit", "AI Expansion Server", "AI Limiter", "Alclad Aluminum Sheet", 
         "Alien DNA Capsule", "Alien Power Matrix", "Alien Protein", "Alumina Solution", "Aluminum Casing", 
@@ -201,46 +176,7 @@ class Setup extends Home {
         "Thermal Propulsion Rocket", "Time Crystal", "Turbo Motor", "Turbo Rifle Ammo", "Turbofuel", 
         "Uranium", "Uranium Fuel Rod", "Versatile Framework", "Water", "Wire"
     ]
-
-
-    async openClose(element, subElement, isOpen = false, offset = { y: 15 }) {
-        await element.click();
-        await element.click();
-        await element.click();
-        await element.click(offset);
-
-        if (isOpen) {
-            await expect(subElement).toBeClickable();
-        }
-        else {
-            await expect(subElement).not.toBeClickable();
-
-        }
-    }
-
-    async setPhysAny() {
-        await this.dropPhys.click();
-        await this.physAny.click();
-    }
-
-    async setPhysLiquid() {
-        await this.dropPhys.click();
-        await this.physLiquid.click();
-    }
-
-    async setPhysSolid() {
-        await this.dropPhys.click();
-        await this.physSolid.click();
-    }
-
-    async setStackAny() {
-        await this.dropStack.click();
-        await this.stackAny.click();
-    }
-
-    open() {
-        return super.open('login');
-    }
+    
 }
 
 export default new Setup();
