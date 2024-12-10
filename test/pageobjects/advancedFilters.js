@@ -43,25 +43,26 @@ class AdvFilters extends Home {
     async integrationPhysState(check1, check2) {
         await check1.click();
         await expect(check1).toBeChecked();
-        await this.stackLoopRad(); //stack size w/rad and any phys state
+        await Setup.setPhysAny();
+        await this.resultCheckLoop(Selectors.dropStack, Setup.expectedChildrenMap_Radioactive);
         await Setup.setPhysLiquid();
-        await this.stackLoopRadLiquid(); //stack size w/rad and liquid state
+        await this.resultCheckLoop(Selectors.dropStack, Setup.expectedChildrenMap_RadioactiveWithLiquidState);
         await Setup.setPhysSolid();
-        await this.stackLoopRadSolid(); //stack size w/rad and solid state
+        await this.resultCheckLoop(Selectors.dropStack, Setup.expectedChildrenMap_RadioactiveWithSolidState);
         await Setup.setPhysAny();
         await check2.click();
-        await this.stackLoopRadEnergy(); //stack size w/rad+energy and any phys state
+        await this.resultCheckLoop(Selectors.dropStack, Setup.expectedChildrenMap_RadioactivewithEnergyValue);
         await Setup.setPhysSolid
-        await this.stackLoopRadEnergySolid(); //stack size w/rad+energy and solid state
+        await this.resultCheckLoop(Selectors.dropStack, Setup.expectedChildrenMap_RadioactiveWithEnergyValueandSolidState);
         await Setup.setPhysLiquid
-        await this.stackLoopRadEnergyLiquid(); //stack size w/rad+energy and liquid state
+        await this.resultCheckLoop(Selectors.dropStack, Setup.expectedChildrenMap_RadioactiveWithEnergyValueandLiquidState);
         await Setup.setPhysAny();
         await check1.click();
-        await this.stackLoopEnergy(); //stack size w/energy and any phys state
+        await this.resultCheckLoop(Selectors.dropStack, Setup.expectedChildrenMap_withEnergyValue);
         await Setup.setPhysSolid();
-        await this.stackLoopEnergySolid(); //stack size w/energy and solid state
+        await this.resultCheckLoop(Selectors.dropStack, Setup.expectedChildrenMap_withEnergyValueandSolidState);
         await Setup.setPhysLiquid();
-        await this.stackLoopEnergyLiquid(); //stack size w/energy and liquid state
+        await this.resultCheckLoop(Selectors.dropStack, Setup.expectedChildrenMap_withEnergyValueandLiquidState);
     }
 
     async integrationAny(check1, check2) {
@@ -82,9 +83,14 @@ class AdvFilters extends Home {
         await expect(check2).not.toBeChecked();
     }
 
-    async testNewLoop() {
-        let stackOptions = await Selectors.dropStack.$$('option');
-        await loopAbstract(Selectors.dropStack, stackOptions, Setup.expectedChildrenMap_Any, Setup.setStackAny);
+    async resultCheckLoop(dropdown, expectedChildrenMap) {
+        let options = await dropdown.$$('option');
+        for(let i = 0; i < options.length; i++) {
+            await dropdown.selectByIndex(i);
+            let selectedOption = await options[i].getAttribute('value');
+            await expect(Selectors.recipeList).toHaveChildren({ eq: expectedChildrenMap[selectedOption]});
+        }
+        await Setup.setStackAny;
     }
 
     async stackLoop_Functionality() {
@@ -133,29 +139,20 @@ class AdvFilters extends Home {
                 await stackDropdown.selectByIndex(i);
                 let selectedOption = await stackDropdown.getValue();
                 if (selectedOption === '0') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 174 }); // any
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 174 }); // any
                 } else if (selectedOption === '1') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 16 }); // stack size 1
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 16 }); // stack size 1
                 } else if (selectedOption === '2') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 62 }); // stack size 50
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 62 }); // stack size 50
                 } else if (selectedOption === '3') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 56 }); // stack size 100
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 56 }); // stack size 100
                 } else if (selectedOption === '4') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 27 }); // stack size 200
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 27 }); // stack size 200
                 } else if (selectedOption === '5') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 13 }); // stack size 500
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 13 }); // stack size 500
                 }
             }
             await Setup.setStackAny();
-        }
-
-        async loopAbstract(dropdown, options, expectedChildrenMap, resetAction) {
-            let selectedOption = await dropdown.getvalue();
-            for(let i = 0; i < options.length; i++) {
-                await dropdown.selectByIndex(i);
-                await expect(Selectors.recipeList).toHaveChildren({ eq: expectedChildrenMap[selectedOption]});
-            }
-            await resetAction();
         }
 
         async stackLoopRad() {
@@ -165,17 +162,17 @@ class AdvFilters extends Home {
                 await stackDropdown.selectByIndex(i);
                 let selectedOption = await stackDropdown.getValue();
                 if (selectedOption === '0') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 11 }); // any
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 11 }); // any
                 } else if (selectedOption === '1') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
                 } else if (selectedOption === '2') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 3 }); // stack size 50
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 3 }); // stack size 50
                 } else if (selectedOption === '3') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 3 }); // stack size 100
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 3 }); // stack size 100
                 } else if (selectedOption === '4') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 2 }); // stack size 200
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 2 }); // stack size 200
                 } else if (selectedOption === '5') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 3 }); // stack size 500
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 3 }); // stack size 500
                 }
             }
             await Setup.setStackAny();
@@ -188,17 +185,17 @@ class AdvFilters extends Home {
                 await stackDropdown.selectByIndex(i);
                 let selectedOption = await stackDropdown.getValue();
                 if (selectedOption === '0') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 3 }); // any
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 3 }); // any
                 } else if (selectedOption === '1') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
                 } else if (selectedOption === '2') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 3 }); // stack size 50
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 3 }); // stack size 50
                 } else if (selectedOption === '3') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 100
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 100
                 } else if (selectedOption === '4') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 200
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 200
                 } else if (selectedOption === '5') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
                 }
             }
             await Setup.setStackAny();
@@ -211,17 +208,17 @@ class AdvFilters extends Home {
                 await stackDropdown.selectByIndex(i);
                 let selectedOption = await stackDropdown.getValue();
                 if (selectedOption === '0') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 26 }); // any
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 26 }); // any
                 } else if (selectedOption === '1') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
                 } else if (selectedOption === '2') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 10 }); // stack size 50
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 10 }); // stack size 50
                 } else if (selectedOption === '3') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 9 }); // stack size 100
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 9 }); // stack size 100
                 } else if (selectedOption === '4') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 6 }); // stack size 200
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 6 }); // stack size 200
                 } else if (selectedOption === '5') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 1 }); // stack size 500
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 1 }); // stack size 500
                 }
             }
             await Setup.setStackAny();
@@ -234,17 +231,17 @@ class AdvFilters extends Home {
                 await stackDropdown.selectByIndex(i);
                 let selectedOption = await stackDropdown.getValue();
                 if (selectedOption === '0') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 159 }); // any
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 159 }); // any
                 } else if (selectedOption === '1') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 16 }); // stack size 1
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 16 }); // stack size 1
                 } else if (selectedOption === '2') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 47 }); // stack size 50
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 47 }); // stack size 50
                 } else if (selectedOption === '3') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 56 }); // stack size 100
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 56 }); // stack size 100
                 } else if (selectedOption === '4') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 27 }); // stack size 200
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 27 }); // stack size 200
                 } else if (selectedOption === '5') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 13 }); // stack size 500
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 13 }); // stack size 500
                 }
             }
             await Setup.setStackAny();
@@ -257,17 +254,17 @@ class AdvFilters extends Home {
                 await stackDropdown.selectByIndex(i);
                 let selectedOption = await stackDropdown.getValue();
                 if (selectedOption === '0') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 15 }); // any
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 15 }); // any
                 } else if (selectedOption === '1') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
                 } else if (selectedOption === '2') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 15 }); // stack size 50
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 15 }); // stack size 50
                 } else if (selectedOption === '3') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 100
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 100
                 } else if (selectedOption === '4') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 200
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 200
                 } else if (selectedOption === '5') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
                 }
             }
             await Setup.setStackAny();
@@ -280,17 +277,17 @@ class AdvFilters extends Home {
                 await stackDropdown.selectByIndex(i);
                 let selectedOption = await stackDropdown.getValue();
                 if (selectedOption === '0') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 11 }); // any
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 11 }); // any
                 } else if (selectedOption === '1') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
                 } else if (selectedOption === '2') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 3 }); // stack size 50
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 3 }); // stack size 50
                 } else if (selectedOption === '3') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 3 }); // stack size 100
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 3 }); // stack size 100
                 } else if (selectedOption === '4') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 2 }); // stack size 200
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 2 }); // stack size 200
                 } else if (selectedOption === '5') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 3 }); // stack size 500
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 3 }); // stack size 500
                 }
             }
             await Setup.setStackAny();
@@ -303,17 +300,17 @@ class AdvFilters extends Home {
                 await stackDropdown.selectByIndex(i);
                 let selectedOption = await stackDropdown.getValue();
                 if (selectedOption === '0') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // any
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // any
                 } else if (selectedOption === '1') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
                 } else if (selectedOption === '2') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 50
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 50
                 } else if (selectedOption === '3') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 100
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 100
                 } else if (selectedOption === '4') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 200
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 200
                 } else if (selectedOption === '5') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
                 }
             }
             await Setup.setStackAny();
@@ -326,15 +323,15 @@ class AdvFilters extends Home {
                 await stackDropdown.selectByIndex(i);
                 let selectedOption = await stackDropdown.getValue();
                 if (selectedOption === '0') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // any
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // any
                 } else if (selectedOption === '1') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
                 } else if (selectedOption === '2') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 50
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 50
                 } else if (selectedOption === '3') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 100
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 100
                 } else if (selectedOption === '4') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 200
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 200
                 } else if (selectedOption === '5') {
                     await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
                 }
@@ -349,17 +346,17 @@ class AdvFilters extends Home {
                 await stackDropdown.selectByIndex(i);
                 let selectedOption = await stackDropdown.getValue();
                 if (selectedOption === '0') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 3 }); // any
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 3 }); // any
                 } else if (selectedOption === '1') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
                 } else if (selectedOption === '2') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 3 }); // stack size 50
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 3 }); // stack size 50
                 } else if (selectedOption === '3') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 100
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 100
                 } else if (selectedOption === '4') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 200
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 200
                 } else if (selectedOption === '5') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
                 }
             }
             await Setup.setStackAny();
@@ -372,17 +369,17 @@ class AdvFilters extends Home {
                 await stackDropdown.selectByIndex(i);
                 let selectedOption = await stackDropdown.getValue();
                 if (selectedOption === '0') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 7 }); // any
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 7 }); // any
                 } else if (selectedOption === '1') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
                 } else if (selectedOption === '2') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 7 }); // stack size 50
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 7 }); // stack size 50
                 } else if (selectedOption === '3') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 100
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 100
                 } else if (selectedOption === '4') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 200
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 200
                 } else if (selectedOption === '5') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 500
                 }
             }
             await Setup.setStackAny();
@@ -395,17 +392,17 @@ class AdvFilters extends Home {
                 await stackDropdown.selectByIndex(i);
                 let selectedOption = await stackDropdown.getValue();
                 if (selectedOption === '0') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 19 }); // any
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 19 }); // any
                 } else if (selectedOption === '1') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 0 }); // stack size 1
                 } else if (selectedOption === '2') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 3 }); // stack size 50
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 3 }); // stack size 50
                 } else if (selectedOption === '3') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 9 }); // stack size 100
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 9 }); // stack size 100
                 } else if (selectedOption === '4') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 6 }); // stack size 200
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 6 }); // stack size 200
                 } else if (selectedOption === '5') {
-                    await expect(Setup.recipeList).toHaveChildren({ eq: 1 }); // stack size 500
+                    await expect(Selectors.recipeList).toHaveChildren({ eq: 1 }); // stack size 500
                 }
             }
             await Setup.setStackAny();
