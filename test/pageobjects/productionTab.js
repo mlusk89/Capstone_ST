@@ -19,7 +19,7 @@ class Production extends Home {
 
     async ProductionTest_IpmDropdown() {
         await Selectors.btnCalc.click();
-        await Setup.openClose(Setup.minMaxDrop, Setup.maxDrop);
+        await Setup.openClose(Selectors.minMaxDrop, Selectors.maxDrop);
         await Selectors.minMaxDrop.click();
         await Selectors.maxDrop.click();
         await expect(Selectors.inputProdamt).not.toExist
@@ -84,17 +84,17 @@ class Production extends Home {
     }
 
     async itemLoop() {
-        for (let i = 0; i < Selectors.productionItems.length; i++) {
-            await this.prodItems(Selectors.productionItems[i]);
+        for (let i = 0; i < Setup.productionItems.length; i++) {
+            await this.prodItems(Setup.productionItems[i]);
             const text = await Selectors.prodResult.getText();
-            await expect(Selectors.productionItems[i]) == text;
+            await expect(Setup.productionItems[i]) == text;
             await Selectors.itemDropdown.clearValue();
         }
     }
 
     async integrationLoop() {
-        for (let i = 0; i < Selectors.productionItems.length; i++) {
-            await this.prodItems(Selectors.productionItems[i]);
+        for (let i = 0; i < Setup.productionItems.length; i++) {
+            await this.prodItems(Setup.productionItems[i]);
             await Selectors.prodItem1.click();
             await Selectors.inputProdAmt.waitForDisplayed();
             await expect(Selectors.minMaxDrop).toExist();
@@ -116,6 +116,11 @@ class Production extends Home {
                 await Selectors.productionTab.click();
                 await expect(Selectors.btnProdItemDrop).toBeDisplayed();
                 await Selectors.btnProdItemDrop.click();
+                } 
+                else if (await Selectors.inputError.isDisplayed()) {
+                    let selectedOption = await Selectors.productionItems[i].getText();
+                    while(selectedOption == "Ficsonium Fuel Rod")
+                    await expect(Selectors.inputError).toBeDisplayed();
                 }
             await Selectors.inputProdAmt.setValue(600000); // well outside normal parameters
             await expect(Selectors.inputError).toExist();

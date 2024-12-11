@@ -40,44 +40,50 @@ class Setup extends Home {
         await Selectors.stackAny.click();
     }
 
+    expectedChildrenMap_PhysicalState = {
+        "any" : 175,
+        "Solid" : 159,
+        "Liquid" : 16
+    }
+
     expectedChildrenMap_Any = {
-        "0" : 174,
+        "any" : 175,
         "1" : 16,
-        "2" : 62,
-        "3" : 56,
-        "4" : 27,
-        "5" : 1
+        "50" : 62,
+        "100" : 56,
+        "200" : 27,
+        "500" : 14
     };
 
     expectedChildrenMap_Radioactive = {
-        "0" : 11,
+        "any" : 11,
         "1" : 0,
-        "2" : 3,
-        "3" : 3,
-        "4" : 2,
-        "5" : 3
+        "50" : 3,
+        "100" : 3,
+        "200" : 2,
+        "500" : 3
     };
 
     expectedChildrenMap_RadioactivewithEnergyValue = {
-        "0" : 3,
+        "any" : 3,
         "1" : 0,
-        "2" : 0,
-        "3" : 0,
-        "4" : 0,
-        "5" : 0
+        "50" : 3,
+        "100" : 0,
+        "200" : 0,
+        "500" : 0
     }
 
     expectedChildrenMap_withEnergyValue = {
-        "0" : 26,
+        "any" : 26,
         "1" : 0,
-        "2" : 10,
-        "3" : 9,
-        "4" : 6,
-        "5" : 1
+        "50" : 10,
+        "100" : 9,
+        "200" : 6,
+        "500" : 1
     };
 
     expectedChildrenMap_LiquidState = {
-        "0" : 15,
+        "any" : 15,
         "1" : 0,
         "2" : 15,
         "3" : 0,
@@ -86,66 +92,66 @@ class Setup extends Home {
     };
 
     expectedChildrenMap_SolidState = {
-        "0" : 159,
+        "any" : 159,
         "1" : 16,
-        "2" : 47,
-        "3" : 56,
-        "4" : 27,
-        "5" : 13
+        "50" : 47,
+        "100" : 56,
+        "200" : 27,
+        "500" : 13
     };
 
     expectedChildrenMap_RadioactiveWithLiquidState = {
-        "0" : 0,
+        "any" : 0,
         "1" : 0,
-        "2" : 0,
-        "3" : 0,
-        "4" : 0,
-        "5" : 0
+        "50" : 0,
+        "100" : 0,
+        "200" : 0,
+        "500" : 0
     };
 
     expectedChildrenMap_RadioactiveWithSolidState = {
-        "0" : 11,
+        "any" : 11,
         "1" : 0,
-        "2" : 3,
-        "3" : 3,
-        "4" : 2,
-        "5" : 3
+        "50" : 3,
+        "100" : 3,
+        "200" : 2,
+        "500" : 3
     };
 
     expectedChildrenMap_RadioactiveWithEnergyValueandLiquidState = {
-        "0" : 0,
+        "any" : 0,
         "1" : 0,
-        "2" : 0,
-        "3" : 0,
-        "4" : 0,
-        "5" : 0
+        "50" : 0,
+        "100" : 0,
+        "200" : 0,
+        "500" : 0
     }
 
     expectedChildrenMap_RadioactiveWithEnergyValueandSolidState = {
-        "0" : 3,
+        "any" : 3,
         "1" : 0,
-        "2" : 3,
-        "3" : 0,
-        "4" : 0,
-        "5" : 0
+        "50" : 3,
+        "100" : 0,
+        "200" : 0,
+        "500" : 0
     };
 
     expectedChildrenMap_withEnergyValueandLiquidState = {
-        "0" : 7,
+        "any" : 7,
         "1" : 0,
-        "2" : 7,
-        "3" : 0,
-        "4" : 0,
-        "5" : 0
+        "50" : 7,
+        "100" : 0,
+        "200" : 0,
+        "500" : 0
     };
 
     expectedChildrenMap_withEnergyValueandSolidState = {
-        "0" : 19,
+        "any" : 19,
         "1" : 0,
-        "2" : 3,
-        "3" : 9,
-        "4" : 6,
-        "5" : 1
+        "50" : 3,
+        "100" : 9,
+        "200" : 6,
+        "500" : 1
     };
 
     productionItems = ["Adaptive Control Unit", "AI Expansion Server", "AI Limiter", "Alclad Aluminum Sheet", 
