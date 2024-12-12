@@ -124,6 +124,9 @@ class Production extends Home {
                 }
             await Selectors.inputProdAmt.setValue(600000); // well outside normal parameters
             await expect(Selectors.inputError).toExist();
+            if (!await Selectors.inputError.isDisplayed()){
+                await Selectors.inputProdAmt.click({ x: (Math.round(((prodInputWidth - 24) / 2) - 15)), y: -9 });
+            }
             await Selectors.inputProdAmt.setValue(10); // return to default
             await Selectors.minMaxDrop.click();
             await Selectors.maxDrop.click();
