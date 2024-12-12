@@ -1,4 +1,3 @@
-import { $ } from '@wdio/globals';
 import Home from './baseURL.js';
 import { expect } from '@wdio/globals'
 import Selectors from '../pageobjects/selectorSetup.js'

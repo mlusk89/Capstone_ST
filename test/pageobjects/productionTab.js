@@ -77,8 +77,6 @@ class Production extends Home {
         await this.integrationLoop();
     }
 
-
-
     async prodItems(items) {
         await Selectors.itemDropdown.setValue(items);
     }

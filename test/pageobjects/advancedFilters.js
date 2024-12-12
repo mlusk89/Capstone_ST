@@ -14,6 +14,7 @@ class AdvFilters extends Home {
         await expect(browser).toHaveUrl("https://www.satisfactorytools.com/1.0/codex/items");
         await Setup.openClose(Selectors.btnAdv, Selectors.chkRad); //element to open and sub element to verify if open or closed
     }
+    
     async checkTest() {    
         await Selectors.btnAdv.click();
         await expect(Selectors.chkRad).toBeDisplayed();
@@ -32,13 +33,12 @@ class AdvFilters extends Home {
         await this.stackLoop_Functionality();
         await this.physLoop_Functionality();
         await this.physLoop_ResultCheck();
-        //await this.resultCheckLoop(Selectors.dropStack, Setup.expectedChildrenMap_Any);
+        await this.resultCheckLoop(Selectors.dropStack, Setup.expectedChildrenMap_Any);
     }
     async integrationTest() {
         await this.integrationAny(Selectors.chkRad, Selectors.chkEnergy); //element to open and sub element to verify if open or closed
         await this.integrationPhysState(Selectors.chkRad, Selectors.chkEnergy);
     }
-
 
     async integrationPhysState(check1, check2) {
         await check1.click();

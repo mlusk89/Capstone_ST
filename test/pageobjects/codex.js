@@ -1,4 +1,3 @@
-
 import Home from './baseURL.js';
 import { expect } from '@wdio/globals'
 import Setup from './function.setup.js'
@@ -25,6 +24,5 @@ class Codex extends Home {
     }
 
 } 
-
 
 export default new Codex();
